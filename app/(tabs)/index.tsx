@@ -1,75 +1,55 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { useEffect, useState } from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { Button, Text, XStack, YStack } from 'tamagui'
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+const TABS = [
+  { key: 'now', label: 'Now', color: '#00596B' },
+  { key: 'hourly', label: 'Hourly', color: '#191D64' },
+  { key: 'weekly', label: 'Weekly', color: '#301934' },
+]
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
-}
+  const [activeTab, setActiveTab] = useState<'now' | 'hourly' | 'weekly'>('now')
+  const [data, setData] = useState<any>(null)
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
+  useEffect(() => {
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=51.5072&longitude=0.1276&current_weather=true&hourly=temperature_2m')
+      .then(res => res.json())
+      .then(setData)
+  }, [])
+
+  const renderTabContent = () => {
+    if (!data) return <Text marginTop="$4">Loading...</Text>
+
+    switch (activeTab) {
+      case 'now':
+        return <Text marginTop="$4">Current: {data.current_weather?.temperature}°C</Text>
+      case 'hourly':
+        return <Text marginTop="$4">Hourly: {data.hourly?.temperature_2m?.slice(0, 3).join(', ')}°C</Text>
+      case 'weekly':
+        return <Text marginTop="$4">Weekly forecast coming soon...</Text>
+    }
+  }
+
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <YStack padding="$4">
+        <Text fontSize="$9" fontWeight="600">My Weather</Text>
+      <XStack gap="$2" justifyContent="space-between">
+        {TABS.map(({ key, label, color }) => (
+          <Button
+            key={key}
+            onPress={() => setActiveTab(key as any)}
+            backgroundColor={color}
+            color="white"
+            flex={1}
+          >
+            {label}
+          </Button>
+        ))}
+      </XStack>
+      {renderTabContent()}
+    </YStack>
+    </SafeAreaView>
+  )
+}
