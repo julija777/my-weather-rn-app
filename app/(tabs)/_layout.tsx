@@ -1,10 +1,22 @@
+import { Ionicons } from '@expo/vector-icons'
 import { Tabs } from 'expo-router'
 import { Text } from 'tamagui'
-import { Ionicons } from '@expo/vector-icons'
 
 export default function TabLayout() {
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
+    <Tabs
+      screenOptions={{
+        headerShown: true,
+        headerTitle: () => <Text>{'Title'}</Text>,
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          fontSize: 20
+        },
+        headerStyle: {
+          backgroundColor: '#00596B'
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
