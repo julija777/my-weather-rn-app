@@ -1,18 +1,22 @@
 import { useEffect, useState } from 'react'
-import { ImageBackground } from 'react-native'
+import { ImageBackground, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Button, Text, XStack, YStack } from 'tamagui'
+import { YStack } from 'tamagui'
 import HomeGoodWeather from "../../assets/images/HomeGoodWeather.png"
 import TestAPIsCard from '@/components/TestApisCard'
+import HomeScreenTabs from '@/components/HomeScreenTabs'
+import Header from '@/components/Header'
+import NotificationCard from '@/components/NotificationCard'
+import type { ColorScheme } from '@/types'
 
 const TABS = [
-  { key: 'now', label: 'Now', color: '#00596B' },
-  { key: 'hourly', label: 'Hourly', color: '#191D64' },
-  { key: 'weekly', label: 'Weekly', color: '#301934' },
-]
+  { key: 'teal', label: 'Now' },
+  { key: 'blue', label: 'Tomorrow' },
+  { key: 'purple', label: '5-Day Forecast' },
+] as const
 
 export default function HomeScreen() {
-  const [activeTab, setActiveTab] = useState<'now' | 'hourly' | 'weekly'>('now')
+  const [activeTab, setActiveTab] = useState<ColorScheme>('teal')
   const [data, setData] = useState<any>(null)
 
   useEffect(() => {
@@ -24,59 +28,27 @@ export default function HomeScreen() {
       .catch(() => setData(null))
   }, [])
 
-  const renderTabContent = () => {
-    if (!data) return <Text marginTop="$4">Loading...</Text>
-
-    switch (activeTab) {
-      case 'now':
-        return (
-          <Text marginTop="$4">
-            Current: {data.current_weather?.temperature}°C
-          </Text>
-        )
-      case 'hourly':
-        return (
-          <Text marginTop="$4">
-            Hourly: {data.hourly?.temperature_2m?.slice(0, 3).join(', ')}°C
-          </Text>
-        )
-      case 'weekly':
-        return (
-          <Text marginTop="$4">Weekly forecast coming soon...</Text>
-        )
-    }
-  }
-
   return (
-    <ImageBackground
-      source={HomeGoodWeather}
-      resizeMode="cover"
-      style={{ flex: 1 }}
-    >
-      <SafeAreaView style={{ flex: 1 }}>
-        <YStack padding="$4" flex={1}>
-          <Text fontSize="$9" fontWeight="600" color="white">
-            My Weather
-          </Text>
+          <ImageBackground
+            source={HomeGoodWeather}
+            resizeMode="cover"
+            style={{ flex: 1 }}
+          >
+          <Header
+            color={activeTab}
+            title="Good afternoon, Julija"
+            notification={<NotificationCard icon={'🚀'} message="Getting started" description="Rocket is launching" backgroundColor="white" />}
+          />
+          <SafeAreaView style={{ flex: 1 }}>
+                     <HomeScreenTabs
+              options={[...TABS]}
+              active={activeTab}
+              onChange={setActiveTab}
+            />
 
-          <XStack gap="$2" justifyContent="space-between">
-            {TABS.map(({ key, label, color }) => (
-              <Button
-                key={key}
-                onPress={() => setActiveTab(key as any)}
-                backgroundColor={color}
-                color="white"
-                flex={1}
-              >
-                {label}
-              </Button>
-            ))}
-          </XStack>
-
-          {renderTabContent()}
-        </YStack>
-        <TestAPIsCard />
-
+          <YStack flex={1} justifyContent="center" alignItems="center" width="100%">
+            <TestAPIsCard />
+          </YStack>
       </SafeAreaView>
     </ImageBackground>
   )
