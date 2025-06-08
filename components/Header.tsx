@@ -14,17 +14,12 @@ export default function Header({ color, title, notification, right }: HeaderProp
   return (
     <YStack
       backgroundColor={color}
-      paddingTop={insets.top + 60} 
+      paddingTop={insets.top + 18} 
       paddingBottom="$4"
       paddingHorizontal="$5"
-      borderBottomLeftRadius="$8"
-      borderBottomRightRadius="$8"
       width="100%"
       alignSelf="center"
       elevation="$3"
-     
-
-
     >
       <XStack alignItems="center" justifyContent="space-between" width="100%">
         <Heading color="white" size="$7" fontWeight="700">

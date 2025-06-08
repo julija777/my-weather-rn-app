@@ -6,19 +6,11 @@ export default function More() {
     <YStack flex={1} justifyContent="center" alignItems="center">
       <Text fontSize="$6">More settings coming soon ⚙️</Text>
       <WeatherCard
-        title="Weather API"
-        value="Open-Meteo"
-        unit=""
+        title="Make an option to switch the temperature from C to F"
+        value="I am the Value prop"
+        unit="I am the Unit prop"
       />
-      <WeatherCard
-        title="Card2"
-        value="2"
-        unit=""
-      />
-      <WeatherCard
-        title="Card3"
-        value="3"
-      />
+
     </YStack>
   )
 }

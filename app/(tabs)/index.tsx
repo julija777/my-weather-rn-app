@@ -1,13 +1,11 @@
-import { useEffect, useState } from 'react'
-import { ImageBackground, Text } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { YStack } from 'tamagui'
-import HomeGoodWeather from "../../assets/images/HomeGoodWeather.png"
-import TestAPIsCard from '@/components/TestApisCard'
-import HomeScreenTabs from '@/components/HomeScreenTabs'
 import Header from '@/components/Header'
 import NotificationCard from '@/components/NotificationCard'
+import { SlidingTabs } from '@/components/SlidingTabs'
 import type { ColorScheme } from '@/types'
+import { useEffect, useState } from 'react'
+import { ImageBackground } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import HomeGoodWeather from "../../assets/images/HomeGoodWeather.png"
 
 const TABS = [
   { key: 'teal', label: 'Now' },
@@ -18,6 +16,7 @@ const TABS = [
 export default function HomeScreen() {
   const [activeTab, setActiveTab] = useState<ColorScheme>('teal')
   const [data, setData] = useState<any>(null)
+  const userName = 'Julia' // Replace 'User' with dynamic value if available
 
   useEffect(() => {
     fetch(
@@ -36,19 +35,16 @@ export default function HomeScreen() {
           >
           <Header
             color={activeTab}
-            title="Good afternoon, Julija"
+            title={`Good afternoon, ${userName}`}
             notification={<NotificationCard icon={'🚀'} message="Getting started" description="Rocket is launching" backgroundColor="white" />}
           />
+          <SlidingTabs
+          options={TABS}
+          active={activeTab}
+          onChange={setActiveTab}
+          themeColors={activeTab}
+          />        
           <SafeAreaView style={{ flex: 1 }}>
-                     <HomeScreenTabs
-              options={[...TABS]}
-              active={activeTab}
-              onChange={setActiveTab}
-            />
-
-          <YStack flex={1} justifyContent="center" alignItems="center" width="100%">
-            <TestAPIsCard />
-          </YStack>
       </SafeAreaView>
     </ImageBackground>
   )

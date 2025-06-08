@@ -28,6 +28,6 @@ export const headerColors = {
 
 export const modalColors = {
   teal: '#004D4D',
-  blue: '#123366',
+  blue: '#191D64',
   purple: '#3D0066',
 };

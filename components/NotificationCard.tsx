@@ -18,7 +18,6 @@ const NotificationCard = ({
  <Card
       elevate
       backgroundColor={backgroundColor}
-      borderRadius="$8"
       padding="$5"
       onPress={onPress}
     >

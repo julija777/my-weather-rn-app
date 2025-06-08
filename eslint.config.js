@@ -1,10 +1,15 @@
 // https://docs.expo.dev/guides/using-eslint/
-const { defineConfig } = require('eslint/config');
-const expoConfig = require('eslint-config-expo/flat');
+import { defineConfig } from 'eslint/config';
+import { expoConfig } from 'eslint-config-expoConfig';
 
-module.exports = defineConfig([
+export default defineConfig([
   expoConfig,
   {
     ignores: ['dist/*'],
   },
+  {
+  "rules": {
+    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }]
+  }
+}
 ]);

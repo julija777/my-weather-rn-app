@@ -1,3 +1,4 @@
+import TestAPIsCard from "@/components/TestApisCard"
 import FlyAwayGoodWeather from "../../assets/images/FlyAwayGoodWeather.png"
 import { ImageBackground } from 'react-native'
 import { Text, YStack } from 'tamagui'
@@ -11,9 +12,7 @@ export default function FlyAway() {
       style={{ flex: 1 }}
     >
       <YStack flex={1} justifyContent="center" alignItems="center">
-        <Text fontSize="$6" color="red" fontWeight="bold">
-          FlyAway screen coming soon 🚀
-        </Text>
+           <TestAPIsCard />
       </YStack>
     </ImageBackground>
   )

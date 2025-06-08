@@ -42,11 +42,12 @@ export default function TestAPIsCard() {
       elevate
       padded
       size="$5"
-      backgroundColor="yellow"
+      backgroundColor="$gray1"
       borderRadius="$6"
       marginVertical="$4"
+      opacity={0.5}
     >
-      <YStack space="$2" height={300}>
+      <YStack height={300}>
         <Input
           placeholder="City"
           value={city}
