@@ -1,22 +1,24 @@
+import WeatherCard, { DataVariant } from '@/components/Cards/WeatherCard'
 import Header from '@/components/Header'
 import NotificationCard from '@/components/NotificationCard'
 import { SlidingTabs } from '@/components/SlidingTabs'
-import type { ColorScheme } from '@/types'
+import { THEME_COLORS, type ColorScheme } from '@/types/colourTypes'
 import { useEffect, useState } from 'react'
 import { ImageBackground } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { ScrollView, YStack } from 'tamagui'
 import HomeGoodWeather from "../../assets/images/HomeGoodWeather.png"
+import { CombinedWeatherCard } from '@/components/Cards/CombinedWeatherCard'
 
 const TABS = [
   { key: 'teal', label: 'Now' },
   { key: 'blue', label: 'Tomorrow' },
-  { key: 'purple', label: '5-Day Forecast' },
+  { key: 'purple', label: ' Next 5 Days' },
 ] as const
 
 export default function HomeScreen() {
   const [activeTab, setActiveTab] = useState<ColorScheme>('teal')
   const [data, setData] = useState<any>(null)
-  const userName = 'Julia' // Replace 'User' with dynamic value if available
+  const userName = 'Julia' 
 
   useEffect(() => {
     fetch(
@@ -27,6 +29,11 @@ export default function HomeScreen() {
       .catch(() => setData(null))
   }, [])
 
+  // Extract weatherData, currentTime, and temperatureUnit from the fetched data
+  const weatherData = data?.current_weather || null
+  const currentTime = data?.current_weather?.time || ''
+  const temperatureUnit = data?.hourly_units?.temperature_2m || '°C'
+
   return (
           <ImageBackground
             source={HomeGoodWeather}
@@ -34,7 +41,7 @@ export default function HomeScreen() {
             style={{ flex: 1 }}
           >
           <Header
-            color={activeTab}
+            color={THEME_COLORS[activeTab]} 
             title={`Good afternoon, ${userName}`}
             notification={<NotificationCard icon={'🚀'} message="Getting started" description="Rocket is launching" backgroundColor="white" />}
           />
@@ -43,9 +50,15 @@ export default function HomeScreen() {
           active={activeTab}
           onChange={setActiveTab}
           themeColors={activeTab}
-          />        
-          <SafeAreaView style={{ flex: 1 }}>
-      </SafeAreaView>
-    </ImageBackground>
+          />
+          {/* Render the WeatherCard based on the active tab */}
+          {/* <SafeAreaView style={{ flex: 1 }}> */}
+          <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
+          <YStack padding="$4" gap="$4">
+        <CombinedWeatherCard />
+        </YStack>
+        </ScrollView>
+      {/* </SafeAreaView> */}
+      </ImageBackground>
   )
 }

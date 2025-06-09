@@ -1,4 +1,4 @@
-import TestAPIsCard from "@/components/TestApisCard"
+import TestAPIsCard from "@/components/Cards/TestApisCard"
 import FlyAwayGoodWeather from "../../assets/images/FlyAwayGoodWeather.png"
 import { ImageBackground } from 'react-native'
 import { Text, YStack } from 'tamagui'

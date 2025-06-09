@@ -1,5 +1,6 @@
+import { TAB_CONTAINER_COLORS, THEME_COLORS } from '@/types/colourTypes'
 import React from 'react'
-import { XStack, Button, YStack } from 'tamagui'
+import { Button, XStack, YStack } from 'tamagui'
 
 type TabKey = 'teal' | 'blue' | 'purple'
 
@@ -15,19 +16,6 @@ interface SlidingTabsProps {
   themeColors: TabKey
 }
 
-
-const TAB_CONTAINER_COLORS = {
-  teal: '#00596B',
-  blue: '#191D64',
-  purple: '#301934',
-}
-
-const TAB_BG_COLORS: Record<TabKey, string> = {
-  teal: '#00596B',
-  blue: '#191D64',
-  purple: '#301934',
-}
-
 export const SlidingTabs: React.FC<SlidingTabsProps> = ({
   options,
   active,
@@ -37,15 +25,15 @@ export const SlidingTabs: React.FC<SlidingTabsProps> = ({
   return (
     <YStack
   backgroundColor={TAB_CONTAINER_COLORS[active]}
-  paddingBottom="$2"
-  paddingTop="$2"
+  paddingBottom="$4"
+  paddingTop="$4"
+  paddingHorizontal="$5"
 >
   <XStack
       justifyContent="space-around"
       alignItems="center"
-      padding="$1"
       borderRadius="$10"
-      backgroundColor={TAB_BG_COLORS[themeColors]}
+      backgroundColor={THEME_COLORS[active]} 
       elevation="$2"
     >
       {options.map((tab) => {
@@ -55,7 +43,7 @@ export const SlidingTabs: React.FC<SlidingTabsProps> = ({
             key={tab.key}
             size="$3"
             borderRadius="$10"
-            fontWeight="600"
+            fontWeight="bold"
             flex={1}
             onPress={() => onChange(tab.key)}
             backgroundColor={isActive ? 'yellow' : 'transparent'}

@@ -45,7 +45,7 @@ export default function TestAPIsCard() {
       backgroundColor="$gray1"
       borderRadius="$6"
       marginVertical="$4"
-      opacity={0.5}
+      opacity={0.8}
     >
       <YStack height={300}>
         <Input
@@ -54,14 +54,14 @@ export default function TestAPIsCard() {
           onChangeText={setCity}
           borderWidth={1}
           borderColor="$gray10"
-          backgroundColor="white"
+          backgroundColor="#CDEBEE"
         />
 
         {loading ? (
           <Spinner size="large" color="black" />
         ) : weatherData ? (
           <ScrollView>
-            <YStack space="$2">
+            <YStack>
               <Text fontWeight="bold">Temperature: {current?.temperature}°C</Text>
               <Text>Wind: {current?.windspeed} km/h</Text>
               <Text>Humidity (hourly): {hourly?.relative_humidity_2m?.[0]}%</Text>
