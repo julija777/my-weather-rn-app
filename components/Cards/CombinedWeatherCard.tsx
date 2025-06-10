@@ -1,117 +1,113 @@
-import { PartlyCloudyIcon } from '@/assets/icons/PartlyCloudyIcon';
+// components/Cards/CombinedWeatherCard.tsx
+import React from 'react';
+import { YStack, XStack, Text, View, Spinner } from 'tamagui';
+import { PartlyCloudyIcon } from '@/assets/icons/PartlyCloudyIcon'; // Use your icon logic
 import { WEATHER_DESCRIPTIONS } from '@/constants/constants';
 import { THEME_COLORS } from '@/types/colourTypes';
-import React, { useEffect, useState } from 'react';
-import { Text, View, YStack, XStack, Input } from 'tamagui';
 
-const DEFAULT_COORDINATES = {
-  latitude: 51.5072,
-  longitude: -0.1276,
-};
+interface CombinedWeatherCardProps {
+  data: any;
+  loading: boolean;
+  variant: 'now' | 'tomorrow';
+  unitSymbol?: string;
+}
 
 const getWeatherDescription = (code: number): string =>
   WEATHER_DESCRIPTIONS[code] || 'Weather data unavailable';
 
-export const CombinedWeatherCard: React.FC = () => {
-  const [weatherData, setWeatherData] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
-  const [city, setCity] = useState('London');
-  const currentTime = new Date(); // Simple default; ideally use API timestamp
-  const temperatureUnit = 'celsius' as 'celsius' | 'fahrenheit'; // Can be made dynamic later
+export const CombinedWeatherCard: React.FC<CombinedWeatherCardProps> = ({
+  data,
+  loading,
+  variant,
+  unitSymbol = '°C',
+}) => {
+  if (loading) {
+    return (
+      <YStack alignItems="center" justifyContent="center" padding="$4">
+        <Spinner size="large" color={THEME_COLORS.teal} />
+      </YStack>
+    );
+  }
 
-  const fetchWeather = async () => {
-    try {
-      setLoading(true);
-      const res = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${DEFAULT_COORDINATES.latitude}&longitude=${DEFAULT_COORDINATES.longitude}&current_weather=true&hourly=temperature_2m,relative_humidity_2m,uv_index&daily=temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_sum,windspeed_10m_max&timezone=auto`
-      );
-      const json = await res.json();
-      setWeatherData(json);
-    } catch (e) {
-      console.error('Failed to fetch weather', e);
-    } finally {
-      setLoading(false);
-    }
-  };
+  if (!data) {
+    return (
+      <YStack alignItems="center" justifyContent="center" padding="$4">
+        <Text color="red">Weather data unavailable</Text>
+      </YStack>
+    );
+  }
 
-  useEffect(() => {
-    fetchWeather();
-  }, []);
+  // Prepare data based on variant
+  let temperature = 0;
+  let minTemp = 0;
+  let maxTemp = 0;
+  let weatherCode = 0;
+  let time = '';
+  let dayLabel = '';
 
-  const current = weatherData?.current_weather;
-  const daily = weatherData?.daily;
+  if (variant === 'now') {
+    temperature = Math.round(data?.current_weather?.temperature ?? 0);
+    weatherCode = data?.current_weather?.weathercode ?? 0;
+    minTemp = data?.daily?.temperature_2m_min?.[0] ?? 0;
+    maxTemp = data?.daily?.temperature_2m_max?.[0] ?? 0;
+    time = data?.current_weather?.time ?? '';
+    dayLabel = new Date(time).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  } else if (variant === 'tomorrow') {
+    minTemp = data?.daily?.temperature_2m_min?.[0] ?? 0;
+    maxTemp = data?.daily?.temperature_2m_max?.[0] ?? 0;
+    weatherCode = data?.daily?.weathercode?.[0] ?? 0;
+    temperature = Math.round((minTemp + maxTemp) / 2);
+    time = data?.daily?.time?.[0] ?? '';
+    dayLabel = new Date(time).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  }
 
-  const formattedTime = currentTime.toLocaleTimeString('en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true,
-  });
-  const dayName = currentTime.toLocaleDateString('en-US', { weekday: 'long' });
-  const monthDay = currentTime.toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-  });
-  const formattedDate = `${dayName} ${monthDay}`;
-
-  const currentTemp = Math.round(current?.temperature ?? 0);
-  const feelsLikeTemp = currentTemp; // API lacks apparent temp, defaulting
-  const minTemp = daily?.temperature_2m_min?.[0] ?? 'N/A';
-  const maxTemp = daily?.temperature_2m_max?.[0] ?? 'N/A';
-  const weatherDescription = getWeatherDescription(current?.weathercode ?? 0);
-  const unitSymbol = temperatureUnit === 'fahrenheit' ? 'F' : 'C';
+  const weatherDescription = getWeatherDescription(weatherCode);
 
   return (
-        <YStack
-          backgroundColor="rgba(73, 201, 227, 0.4)"
-          borderRadius="$4"
-          padding="$4"
-          alignSelf="center"
-          shadowOpacity={0.2}
-          role="region"
-          aria-label="Current Weather Information"
-        >
-          <XStack justifyContent="space-between" marginBottom="$4">
-            {/* Left: Temp & Feels */}
-            <YStack inlineSize={'60%'} gap="$2">
-              <Text fontSize={64} fontWeight="bold" color={THEME_COLORS.teal}>
-                {currentTemp}°
-                <Text fontSize={32} fontWeight="600" color={THEME_COLORS.teal}>
-                  {unitSymbol}
-                </Text>
-              </Text>
-            </YStack>
-    
-            {/* Right: Icon, Description, Min/Max */}
-            <YStack alignItems="flex-end">
-              <View width={64} height={64} marginBottom="$2">
-                <PartlyCloudyIcon />
-              </View>
-              <Text fontSize="$4" textTransform="capitalize" fontWeight="bold">
-                {weatherDescription}
-              </Text>
-              {minTemp !== 'N/A' && maxTemp !== 'N/A' && (
-                <Text color="$black" fontWeight="bold" fontSize="$2" marginTop="$3">
-                  Min {minTemp}°{unitSymbol} • Max {maxTemp}°{unitSymbol}
-                </Text>
-              )}
-            </YStack>
-          </XStack>
-    
-          {/* Bottom: Time & Date */}
-          <YStack
-            alignItems="center"
-            borderTopWidth={1}
-            borderTopColor="#3B3F8C"
-            paddingTop="$3"
-            marginTop="$3"
-          >
-            <Text fontSize="$7" fontWeight="600">
-              {formattedTime}
+    <YStack
+      backgroundColor="rgba(73, 201, 227, 0.4)"
+      borderRadius="$4"
+      padding="$4"
+      alignSelf="center"
+      shadowOpacity={0.2}
+      role="region"
+      aria-label="Weather Information"
+    >
+      <XStack justifyContent="space-between" marginBottom="$4">
+        <YStack inlineSize={'60%'} gap="$2">
+          <Text fontSize={64} fontWeight="bold" color={THEME_COLORS.teal}>
+            {temperature}°
+            <Text fontSize={32} fontWeight="600" color={THEME_COLORS.teal}>
+              {unitSymbol}
             </Text>
-            <Text fontSize="$4" color="$black" fontWeight="bold" marginTop="$1">
-              {formattedDate}
-            </Text>
-          </YStack>
+          </Text>
         </YStack>
+        <YStack alignItems="flex-end">
+          <View width={64} height={64} marginBottom="$2">
+            <PartlyCloudyIcon />
+          </View>
+          <Text fontSize="$4" textTransform="capitalize" fontWeight="bold">
+            {weatherDescription}
+          </Text>
+          <Text color="$black" fontWeight="bold" fontSize="$2" marginTop="$3">
+            Min {minTemp}°{unitSymbol} • Max {maxTemp}°{unitSymbol}
+          </Text>
+        </YStack>
+      </XStack>
+      <YStack
+        alignItems="center"
+        borderTopWidth={1}
+        borderTopColor="#3B3F8C"
+        paddingTop="$3"
+        marginTop="$3"
+      >
+        <Text fontSize="$7" fontWeight="600">
+          {time ? new Date(time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : ''}
+        </Text>
+        <Text fontSize="$4" color="$black" fontWeight="bold" marginTop="$1">
+          {dayLabel}
+        </Text>
+      </YStack>
+    </YStack>
   );
 };
