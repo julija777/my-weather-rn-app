@@ -10,6 +10,9 @@ interface CombinedWeatherCardProps {
   loading: boolean;
   variant: 'now' | 'tomorrow';
   unitSymbol?: string;
+  city?: string;
+  country?: string;
+  unit?: 'metric' | 'imperial';
 }
 
 const getWeatherDescription = (code: number): string =>
@@ -20,6 +23,7 @@ export const CombinedWeatherCard: React.FC<CombinedWeatherCardProps> = ({
   loading,
   variant,
   unitSymbol = '°C',
+  city,
 }) => {
   if (loading) {
     return (
@@ -67,13 +71,19 @@ export const CombinedWeatherCard: React.FC<CombinedWeatherCardProps> = ({
     <YStack
       backgroundColor="rgba(73, 201, 227, 0.4)"
       borderRadius="$4"
-      padding="$4"
+      padding="$3"
+      marginTop='$4'
+      marginHorizontal={6}
+      paddingHorizontal={'$4'}
       alignSelf="center"
       shadowOpacity={0.2}
       role="region"
       aria-label="Weather Information"
     >
       <XStack justifyContent="space-between" marginBottom="$4">
+        <Text fontSize="$6" fontWeight="bold" marginBottom="$2">
+  {city}
+</Text>
         <YStack inlineSize={'60%'} gap="$2">
           <Text fontSize={64} fontWeight="bold" color={THEME_COLORS.teal}>
             {temperature}°

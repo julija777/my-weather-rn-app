@@ -1,4 +1,3 @@
-import WeatherCard from '@/components/Cards/WeatherCard'
 import { Text, YStack } from 'tamagui'
 
 export default function More() {
@@ -8,4 +7,3 @@ export default function More() {
     </YStack>
   )
 }
-

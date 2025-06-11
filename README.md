@@ -1,6 +1,4 @@
-# Welcome to your Expo app 👋
-
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# Welcome to my Weather App!
 
 ## Get started
 
@@ -16,35 +14,31 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Get override the simulator location:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+🛠 For iOS Simulator:
+Open Simulator
 
-## Get a fresh project
+In the top menu:
 
-When you're ready, run:
+Go to Features > Location > Custom Location...
 
-```bash
-npm run reset-project
-```
+Enter coordinates for London (e.g., 51.5072, -0.1276)
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+🛠 For Android Emulator:
+Use Android Studio or adb:
 
-## Learn more
 
-To learn more about developing your project with Expo, look at the following resources:
+adb emu geo fix -0.1276 51.5072
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## On the Real Device
 
-## Join the community
+If you deny location permission once, Expo will fall back to the default.
 
-Join our community of developers creating universal apps.
+✅ Solution:
+Delete the Expo Go app and reinstall it to reset permissions
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Or go to your device’s Settings > App > Expo Go > Location > Allow
+
+

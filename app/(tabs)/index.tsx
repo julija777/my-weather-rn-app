@@ -1,7 +1,6 @@
-// screens/HomeScreen.tsx
 import React, { useState } from 'react';
 import { ImageBackground } from 'react-native';
-import { ScrollView, YStack } from 'tamagui';
+import { ScrollView, YStack, Text } from 'tamagui';
 import Header from '@/components/Header';
 import NotificationCard from '@/components/NotificationCard';
 import { SlidingTabs } from '@/components/SlidingTabs';
@@ -11,6 +10,8 @@ import { useWeatherData } from '@/hooks/useWeatherData';
 import { CombinedWeatherCard } from '@/components/Cards/CombinedWeatherCard';
 import WeatherDayCard from '@/components/Cards/WeatherDayCard';
 import HorizontalCarousel from '@/components/HorizontalCarousel';
+// import { useCityName } from '@/hooks/useCityName';
+import { LocationCard } from '@/components/Cards/LocationCard';
 
 const TABS = [
   { key: 'teal', label: 'Now' },
@@ -19,6 +20,7 @@ const TABS = [
 ] as const;
 
 export default function HomeScreen() {
+  const DEFAULT_COORDINATES = { latitude: 51.5072, longitude: -0.1276 };
   const [activeTab, setActiveTab] = useState<ColorScheme>('teal');
   const { data, loading } = useWeatherData(activeTab);
   const userName = 'Julia';
@@ -47,13 +49,30 @@ export default function HomeScreen() {
         onChange={setActiveTab}
         themeColors={activeTab}
       />
+      <LocationCard />
+      {/* City name below tabs */}
+      {/* <YStack alignItems="center" marginTop="$2" marginBottom="$2">
+        {cityLoading ? (
+          <Text fontSize="$6" fontWeight="bold" color="$color">
+            City is loading...
+          </Text>
+        ) : city ? (
+          <Text fontSize="$6" fontWeight="bold" color="$color">
+            {city}
+          </Text>
+        ) : (
+          <Text fontSize="$6" fontWeight="bold" color="$color">
+            City is loading...
+          </Text>
+        )}
+      </YStack> */}
       <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
-        <YStack padding="$4" gap="$4">
+        <YStack >
           {activeTab === 'teal' && (
-            <CombinedWeatherCard data={data} loading={loading} variant="now" />
+            <CombinedWeatherCard data={data} loading={loading} variant="now"  />
           )}
           {activeTab === 'blue' && (
-            <CombinedWeatherCard data={data} loading={loading} variant="tomorrow" />
+            <CombinedWeatherCard data={data} loading={loading} variant="tomorrow"  />
           )}
           {activeTab === 'purple' && data?.daily?.time && (
             <HorizontalCarousel>
