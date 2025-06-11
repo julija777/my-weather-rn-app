@@ -15,7 +15,7 @@
    ```
 
 
-## Get override the simulator location:
+## Override the expo default simulator geolocation:
 
 🛠 For iOS Simulator:
 Open Simulator
@@ -40,5 +40,7 @@ If you deny location permission once, Expo will fall back to the default.
 Delete the Expo Go app and reinstall it to reset permissions
 
 Or go to your device’s Settings > App > Expo Go > Location > Allow
+
+
 
 

@@ -3,7 +3,7 @@ import React from 'react';
 import { YStack, XStack, Text, View } from 'tamagui';
 import { PartlyCloudyIcon } from '@/assets/icons/PartlyCloudyIcon'; // Replace with your icon logic
 import { WEATHER_DESCRIPTIONS } from '@/constants/constants';
-import { THEME_COLORS } from '@/types/colourTypes';
+
 
 interface WeatherDayCardProps {
   date: string;
