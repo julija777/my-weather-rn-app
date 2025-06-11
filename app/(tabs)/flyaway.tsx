@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { YStack, Button, Input, Text, Card, Separator } from 'tamagui';
-import { cityState } from '@/store/cityStore';
 import WeatherDayCard from '@/components/Cards/WeatherDayCard';
+import Header from '@/components/Header';
+import { cityState } from '@/store/cityStore';
+import React, { useState } from 'react';
+import { Button, Card, Input, ScrollView, Separator, Text, YStack } from 'tamagui';
 
 export default function FlyAway() {
   const [city, setCity] = useState('');
@@ -56,43 +57,40 @@ export default function FlyAway() {
   };
 
   return (
-    <YStack padding="$4" flex={1} backgroundColor="$background">
-      <Text fontSize="$8" fontWeight="bold">🌤 Weather App</Text>
-
-      <Input
-        placeholder="Enter city name"
-        value={city}
-        onChangeText={setCity}
-        marginBottom="$2"
-      />
-
-      <Button onPress={handleSearch}>Search</Button>
-
-      {weather && (
-        <Card elevate padding="$4" marginTop="$4">
-          <Text fontSize="$6" fontWeight="600">{weather.city}</Text>
-          <Text>Temperature: {weather.temperature}°C</Text>
-          <Text>Wind Speed: {weather.wind} km/h</Text>
-        </Card>
-      )}
-
-      <Separator marginTop="$4" marginBottom="$4" />
-      <Text fontWeight="bold" fontSize="$6">Saved Cities</Text>
-
-      <YStack space="$3" marginTop="$2">
-        {cityState.savedCities.get().map((cityObj, idx) => (
-          <YStack key={idx} space="$2">
-            <Text fontSize="$5" fontWeight="600">{cityObj.name}</Text>
-            <WeatherDayCard
-              date={cityObj.weather.date}
-              min={cityObj.weather.min}
-              max={cityObj.weather.max}
-              weatherCode={cityObj.weather.weathercode}
-              unitSymbol="°C"
-            />
+      <>
+      <Header title="🌤 Where to Fly Away?" color={'#42d7f5'} />
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
+        <YStack padding="$4" flex={1} >
+          <Input
+            placeholder="Enter city name"
+            value={city}
+            onChangeText={setCity}
+            marginBottom="$2" />
+          <Button onPress={handleSearch}>Search</Button>
+          {weather && (
+            <Card elevate padding="$4" marginTop="$4">
+              <Text fontSize="$6" fontWeight="600">{weather.city}</Text>
+              <Text>Temperature: {weather.temperature}°C</Text>
+              <Text>Wind Speed: {weather.wind} km/h</Text>
+            </Card>
+          )}
+          <Separator marginTop="$4" marginBottom="$4" />
+          <Text fontWeight="bold" fontSize="$6">Saved Cities</Text>
+          <YStack space="$3" marginTop="$2">
+            {cityState.savedCities.get().map((cityObj, idx) => (
+              <YStack key={idx} padding="$3" backgroundColor="$backgroundLight" borderRadius="$2">
+                <Text fontSize="$5" fontWeight="600">{cityObj.name}</Text>
+                <WeatherDayCard
+                  date={cityObj.weather.date}
+                  min={cityObj.weather.min}
+                  max={cityObj.weather.max}
+                  weatherCode={cityObj.weather.weathercode}
+                  unitSymbol="°C" />
+              </YStack>
+            ))}
           </YStack>
-        ))}
-      </YStack>
-    </YStack>
+        </YStack>
+      </ScrollView>
+   </>
   );
 }

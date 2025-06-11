@@ -15,8 +15,6 @@ export default function TestAPIsCard() {
   const fetchWeather = async () => {
     try {
       setLoading(true)
-
-      // For demo, static coordinates. You can integrate a geocoding API to convert city to lat/lng
       const res = await fetch(
         `https://api.open-meteo.com/v1/forecast?latitude=${DEFAULT_COORDINATES.latitude}&longitude=${DEFAULT_COORDINATES.longitude}&current_weather=true&hourly=temperature_2m,relative_humidity_2m,uv_index&daily=temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_sum,windspeed_10m_max&timezone=auto`
       )

@@ -10,7 +10,6 @@ import { useWeatherData } from '@/hooks/useWeatherData';
 import { CombinedWeatherCard } from '@/components/Cards/CombinedWeatherCard';
 import WeatherDayCard from '@/components/Cards/WeatherDayCard';
 import HorizontalCarousel from '@/components/HorizontalCarousel';
-// import { useCityName } from '@/hooks/useCityName';
 import { LocationCard } from '@/components/Cards/LocationCard';
 
 const TABS = [
@@ -50,22 +49,6 @@ export default function HomeScreen() {
         themeColors={activeTab}
       />
       <LocationCard />
-      {/* City name below tabs */}
-      {/* <YStack alignItems="center" marginTop="$2" marginBottom="$2">
-        {cityLoading ? (
-          <Text fontSize="$6" fontWeight="bold" color="$color">
-            City is loading...
-          </Text>
-        ) : city ? (
-          <Text fontSize="$6" fontWeight="bold" color="$color">
-            {city}
-          </Text>
-        ) : (
-          <Text fontSize="$6" fontWeight="bold" color="$color">
-            City is loading...
-          </Text>
-        )}
-      </YStack> */}
       <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
         <YStack >
           {activeTab === 'teal' && (
