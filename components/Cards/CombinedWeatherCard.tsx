@@ -69,22 +69,21 @@ export const CombinedWeatherCard: React.FC<CombinedWeatherCardProps> = ({
 
   return (
     <YStack
-      backgroundColor="rgba(73, 201, 227, 0.4)"
-      borderRadius="$4"
-      padding="$3"
-      marginTop='$4'
-      marginHorizontal={6}
-      paddingHorizontal={'$4'}
-      alignSelf="center"
-      shadowOpacity={0.2}
-      role="region"
-      aria-label="Weather Information"
+     backgroundColor="rgba(73, 201, 227, 0.4)"
+  borderRadius="$4"
+  padding="$3"
+  marginTop='$4'
+  paddingHorizontal='$5' 
+  marginHorizontal='$3'  
+  alignSelf="center"
+  shadowOpacity={0.2}
+  role="region"
+  aria-label="Weather Information"
     >
-      <XStack justifyContent="space-between" marginBottom="$4">
         <Text fontSize="$6" fontWeight="bold" marginBottom="$2">
   {city}
 </Text>
-        <YStack inlineSize={'60%'} gap="$2">
+        <YStack inlineSize={'50%'} gap="$2">
           <Text fontSize={64} fontWeight="bold" color={THEME_COLORS.teal}>
             {temperature}°
             <Text fontSize={32} fontWeight="600" color={THEME_COLORS.teal}>
@@ -103,7 +102,6 @@ export const CombinedWeatherCard: React.FC<CombinedWeatherCardProps> = ({
             Min {minTemp}°{unitSymbol} • Max {maxTemp}°{unitSymbol}
           </Text>
         </YStack>
-      </XStack>
       <YStack
         alignItems="center"
         borderTopWidth={1}

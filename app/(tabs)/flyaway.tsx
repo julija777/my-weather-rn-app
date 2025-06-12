@@ -1,8 +1,10 @@
-import WeatherDayCard from '@/components/Cards/WeatherDayCard';
-import Header from '@/components/Header';
-import { cityState } from '@/store/cityStore';
 import React, { useState } from 'react';
 import { Button, Card, Input, ScrollView, Separator, Text, YStack } from 'tamagui';
+import { ImageBackground } from 'react-native';
+import { cityState } from '@/store/cityStore';
+import WeatherDayCard from '@/components/Cards/WeatherDayCard';
+import Header from '@/components/Header';
+import FlyAwayGoodWeather from "../../assets/images/FlyAwayGoodWeather.png"; 
 
 export default function FlyAway() {
   const [city, setCity] = useState('');
@@ -55,17 +57,21 @@ export default function FlyAway() {
       console.error('Weather fetch error:', err);
     }
   };
-
   return (
-      <>
+    <ImageBackground
+      source={FlyAwayGoodWeather} 
+      resizeMode="cover"
+      style={{ flex: 1 }}
+    >
       <Header title="🌤 Where to Fly Away?" color={'#42d7f5'} />
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
-        <YStack padding="$4" flex={1} >
+        <YStack padding="$4" flex={1}>
           <Input
             placeholder="Enter city name"
             value={city}
             onChangeText={setCity}
-            marginBottom="$2" />
+            marginBottom="$2"
+          />
           <Button onPress={handleSearch}>Search</Button>
           {weather && (
             <Card elevate padding="$4" marginTop="$4">
@@ -75,22 +81,23 @@ export default function FlyAway() {
             </Card>
           )}
           <Separator marginTop="$4" marginBottom="$4" />
-          <Text fontWeight="bold" fontSize="$6">Saved Cities</Text>
-          <YStack space="$3" marginTop="$2">
+          <Text fontSize="$8" fontWeight="800" fontStyle='italic' color={'#fff'} alignSelf='center'>Saved Cities</Text>
+          <YStack gap="$3" marginTop="$2">
             {cityState.savedCities.get().map((cityObj, idx) => (
               <YStack key={idx} padding="$3" backgroundColor="$backgroundLight" borderRadius="$2">
-                <Text fontSize="$5" fontWeight="600">{cityObj.name}</Text>
+                <Text fontSize="$8" fontWeight="800" color={'#42d7f5'} alignSelf='center' paddingBottom="$2">{cityObj.name}</Text>
                 <WeatherDayCard
                   date={cityObj.weather.date}
                   min={cityObj.weather.min}
                   max={cityObj.weather.max}
                   weatherCode={cityObj.weather.weathercode}
-                  unitSymbol="°C" />
+                  unitSymbol="°C"
+                />
               </YStack>
             ))}
           </YStack>
         </YStack>
       </ScrollView>
-   </>
+    </ImageBackground>
   );
 }
