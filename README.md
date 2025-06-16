@@ -14,7 +14,6 @@
    npx expo start
    ```
 
-
 ## Override the expo default simulator geolocation:
 
 🛠 For iOS Simulator:
@@ -29,7 +28,6 @@ Enter coordinates for London (e.g., 51.5072, -0.1276)
 🛠 For Android Emulator:
 Use Android Studio or adb:
 
-
 adb emu geo fix -0.1276 51.5072
 
 ## On the Real Device
@@ -40,7 +38,3 @@ If you deny location permission once, Expo will fall back to the default.
 Delete the Expo Go app and reinstall it to reset permissions
 
 Or go to your device’s Settings > App > Expo Go > Location > Allow
-
-
-
-

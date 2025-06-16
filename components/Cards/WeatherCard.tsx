@@ -1,27 +1,27 @@
-import React from 'react';
-import { YStack, Text, View, Spinner } from 'tamagui';
-import { PartlyCloudyIcon } from '@/assets/icons/PartlyCloudyIcon'; // Use your icon logic
-import { WEATHER_DESCRIPTIONS } from '@/constants/constants';
-import { THEME_COLORS } from '@/types/colourTypes';
+import React from "react";
+import { YStack, Text, View, Spinner } from "tamagui";
+import { PartlyCloudyIcon } from "@/assets/icons/PartlyCloudyIcon"; // Use your icon logic
+import { WEATHER_DESCRIPTIONS } from "@/constants/constants";
+import { THEME_COLORS } from "@/types/colourTypes";
 
 interface WeatherCardProps {
   data: any;
   loading: boolean;
-  variant: 'now' | 'tomorrow' | '5-day';
+  variant: "now" | "tomorrow" | "5-day";
   unitSymbol?: string;
   city?: string;
   country?: string;
-  unit?: 'metric' | 'imperial';
+  unit?: "metric" | "imperial";
 }
 
 const getWeatherDescription = (code: number): string =>
-  WEATHER_DESCRIPTIONS[code] || 'Weather data unavailable';
+  WEATHER_DESCRIPTIONS[code] || "Weather data unavailable";
 
 export const WeatherCard: React.FC<WeatherCardProps> = ({
   data,
   loading,
   variant,
-  unitSymbol = '°C',
+  unitSymbol = "°C",
   city,
 }) => {
   if (loading) {
@@ -45,27 +45,31 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({
   let minTemp = 0;
   let maxTemp = 0;
   let weatherCode = 0;
-  let time = '';
-  let dayLabel = '';
+  let time = "";
+  let dayLabel = "";
 
-  if (variant === 'now') {
+  if (variant === "now") {
     temperature = Math.round(data?.current_weather?.temperature ?? 0);
     weatherCode = data?.current_weather?.weathercode ?? 0;
-    time = data?.current_weather?.time ?? '';
-    dayLabel = new Date(time).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
-    
+    time = data?.current_weather?.time ?? "";
+    dayLabel = new Date(time).toLocaleDateString("en-US", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+    });
+
     // Calculate today's min/max from hourly data since daily data is not available for today
     if (data?.hourly?.temperature_2m && data?.hourly?.time) {
-      const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+      const today = new Date().toISOString().split("T")[0]; // Format: YYYY-MM-DD
       const todayTemperatures: any[] = [];
-      
+
       // Filter today's temperatures from hourly data
       data.hourly.time.forEach((hourTime: string, index: string | number) => {
         if (hourTime.startsWith(today)) {
           todayTemperatures.push(data.hourly.temperature_2m[index]);
         }
       });
-      
+
       if (todayTemperatures.length > 0) {
         minTemp = Math.min(...todayTemperatures);
         maxTemp = Math.max(...todayTemperatures);
@@ -78,17 +82,30 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({
       minTemp = 0;
       maxTemp = 0;
     }
-    
-    console.log('Today calculated temps - minTemp:', minTemp, 'maxTemp:', maxTemp);
-  } else if (variant === 'tomorrow') {
+
+    console.log(
+      "Today calculated temps - minTemp:",
+      minTemp,
+      "maxTemp:",
+      maxTemp,
+    );
+  } else if (variant === "tomorrow") {
     // Use the daily data which contains tomorrow's forecast
-    if (data?.daily?.temperature_2m_min && data?.daily?.temperature_2m_max && data?.daily?.time) {
+    if (
+      data?.daily?.temperature_2m_min &&
+      data?.daily?.temperature_2m_max &&
+      data?.daily?.time
+    ) {
       minTemp = data.daily.temperature_2m_min[0] ?? 0;
       maxTemp = data.daily.temperature_2m_max[0] ?? 0;
       weatherCode = data.daily.weathercode?.[0] ?? 0;
       temperature = Math.round(maxTemp);
-      time = data.daily.time[0] ?? '';
-      dayLabel = new Date(time).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+      time = data.daily.time[0] ?? "";
+      dayLabel = new Date(time).toLocaleDateString("en-US", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+      });
     } else {
       // Fallback if daily data is not available
       minTemp = 0;
@@ -97,132 +114,154 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({
       temperature = 0;
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
-      time = tomorrow.toISOString().split('T')[0];
-      dayLabel = tomorrow.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+      time = tomorrow.toISOString().split("T")[0];
+      dayLabel = tomorrow.toLocaleDateString("en-US", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+      });
     }
-    
-    console.log('Tomorrow temps - minTemp:', minTemp, 'maxTemp:', maxTemp, 'temperature:', temperature);
-  } else if (variant === '5-day') {
+
+    console.log(
+      "Tomorrow temps - minTemp:",
+      minTemp,
+      "maxTemp:",
+      maxTemp,
+      "temperature:",
+      temperature,
+    );
+  } else if (variant === "5-day") {
     temperature = 0;
     minTemp = 0;
     maxTemp = 0;
     weatherCode = 0;
-    time = '';
-    dayLabel = '5-Day Forecast';
+    time = "";
+    dayLabel = "5-Day Forecast";
   }
 
   const weatherDescription = getWeatherDescription(weatherCode);
 
   // Handle 5-day forecast separately
-  if (variant === '5-day') {
+  if (variant === "5-day") {
     return (
       <YStack
-        backgroundColor="rgba(73, 201, 227, 0.4)"
+        flex={1}
+        backgroundColor="rgba(73, 186, 227, 0.32)"
         borderRadius="$4"
         padding="$4"
-        marginTop='$4'
-        marginHorizontal='$3'  
-        alignSelf="center"
-        shadowOpacity={0.2}
+        marginHorizontal="$3"
         role="region"
         aria-label="5-Day Weather Forecast"
       >
-        <Text fontSize="$6" fontWeight="bold" marginBottom="$4" textAlign="center">
-          5-Day Forecast
-        </Text>
-        
         {data?.daily?.time ? (
           <YStack gap="$3">
             {data.daily.time.slice(0, 5).map((date: string, idx: number) => {
-              const dayName = new Date(date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+              const dayName = new Date(date).toLocaleDateString("en-US", {
+                weekday: "short",
+                month: "short",
+                day: "numeric",
+              });
               const min = Math.round(data.daily.temperature_2m_min[idx]);
               const max = Math.round(data.daily.temperature_2m_max[idx]);
               const code = data.daily.weathercode[idx];
               const description = getWeatherDescription(code);
-              
+
               return (
                 <YStack
+                  flex={1}
                   key={date}
-                  backgroundColor="rgba(255, 255, 255, 0.2)"
-                  borderRadius="$3"
-                  padding="$3"
+                  backgroundColor="rgba(191, 20, 182, 0.27)"
+                  borderRadius="$4"
+                  elevation={1}
+                  paddingHorizontal="$12"
+                  marginTop="$2"
+                  paddingVertical="$3"
                 >
-                  <YStack alignItems="center" gap="$2">
-                    <Text fontSize="$4" fontWeight="bold" color="$black">
-                      {dayName}
-                    </Text>
-                    
-                    <YStack alignItems="center" gap="$1">
-                      <View width={40} height={40}>
-                        <PartlyCloudyIcon />
-                      </View>
-                      <Text fontSize="$3" color="$black" textAlign="center" numberOfLines={1}>
-                        {description}
-                      </Text>
-                    </YStack>
-                    
-                    <YStack alignItems="center">
-                      <Text fontSize="$5" fontWeight="bold" color={THEME_COLORS.teal}>
-                        {max}°{unitSymbol}
-                      </Text>
-                      <Text fontSize="$4" color="$gray8" fontWeight="600">
-                        {min}°{unitSymbol}
-                      </Text>
-                    </YStack>
-                  </YStack>
+                  <Text fontSize="$4" fontWeight="bold" color="yellow">
+                    {dayName}
+                  </Text>
+                  <PartlyCloudyIcon />
+                  <Text
+                    fontSize="$3"
+                    color="yellow"
+                    numberOfLines={1}
+                    marginBottom={"$2"}
+                  >
+                    {description}
+                  </Text>
+                  <Text
+                    fontSize="$5"
+                    fontWeight="bold"
+                    color={THEME_COLORS.teal}
+                  >
+                    Max:{max}
+                    {unitSymbol}
+                  </Text>
+                  <Text fontSize="$4" color="$gray2" fontWeight="600">
+                    Min:{min}
+                    {unitSymbol}
+                  </Text>
                 </YStack>
               );
             })}
           </YStack>
         ) : (
-          <Text color="red" textAlign="center">5-day forecast data unavailable</Text>
+          <Text color="red" textAlign="center">
+            5-day forecast data unavailable
+          </Text>
         )}
       </YStack>
     );
   }
 
   return (
-  <YStack
-  backgroundColor="rgba(73, 201, 227, 0.4)"
-  borderRadius="$4"
-  padding="$3"
-  marginTop='$4'
-  paddingHorizontal='$5' 
-  marginHorizontal='$3'  
-  alignSelf="center"
-  shadowOpacity={0.2}
-  role="region"
-  aria-label="Weather Information"
+    <YStack
+      backgroundColor="rgba(73, 201, 227, 0.4)"
+      borderRadius="$4"
+      padding="$3"
+      marginHorizontal="$3"
+      role="region"
+      aria-label="Weather Information"
     >
-        <Text fontSize="$6" fontWeight="bold" marginBottom="$2">
-  {city}
-        </Text>
-        <YStack inlineSize={'50%'} gap="$2">
-          <Text fontSize={64} fontWeight="bold" color={THEME_COLORS.teal}>
-            {temperature}°
-            <Text fontSize={32} fontWeight="600" color={THEME_COLORS.teal}>
-              {unitSymbol}
-            </Text>
+      <Text fontSize="$6" fontWeight="bold" marginBottom="$2">
+        {city}
+      </Text>
+      <YStack inlineSize={"50%"} gap="$2">
+        <Text fontSize={64} fontWeight="bold" color={THEME_COLORS.teal}>
+          {temperature}°
+          <Text fontSize={32} fontWeight="600" color={THEME_COLORS.teal}>
+            {unitSymbol}
           </Text>
-        </YStack>
-        <YStack alignItems="flex-end">
-          <View width={64} height={64} marginBottom="$2">
-            <PartlyCloudyIcon />
-          </View>
-          <Text fontSize="$4" textTransform="capitalize" fontWeight="bold">
-            {weatherDescription}
-          </Text>
-          <Text color="$black" fontWeight="bold" fontSize="$2" marginTop="$3">
-            Min {minTemp}{unitSymbol} • Max {maxTemp}{unitSymbol}
-          </Text>
-        </YStack>
-
-        <Text fontSize="$7" fontWeight="600">
-          {variant === 'tomorrow' ? 'Tomorrow' : (time ? new Date(time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : '')}
-        </Text>
-        <Text fontSize="$4" color="$black" fontWeight="bold" marginTop="$1">
-          {dayLabel}
         </Text>
       </YStack>
+      <YStack alignItems="flex-end">
+        <View width={64} height={64} marginBottom="$2">
+          <PartlyCloudyIcon />
+        </View>
+        <Text fontSize="$4" textTransform="capitalize" fontWeight="bold">
+          {weatherDescription}
+        </Text>
+        <Text color="$black" fontWeight="bold" fontSize="$2" marginTop="$3">
+          Min {minTemp}
+          {unitSymbol} • Max {maxTemp}
+          {unitSymbol}
+        </Text>
+      </YStack>
+
+      <Text fontSize="$7" fontWeight="600">
+        {variant === "tomorrow"
+          ? "Tomorrow"
+          : time
+            ? new Date(time).toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true,
+              })
+            : ""}
+      </Text>
+      <Text fontSize="$4" color="$black" fontWeight="bold" marginTop="$1">
+        {dayLabel}
+      </Text>
+    </YStack>
   );
 };

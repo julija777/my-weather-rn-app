@@ -1,10 +1,10 @@
-import React from 'react';
-import { Svg, Circle, Path } from 'react-native-svg';
+import React from "react";
+import { Svg, Circle, Path } from "react-native-svg";
 
-export const PartlyCloudyIcon: React.FC<{ width?: number; height?: number }> = ({
-  width = 72,
-  height = 56,
-}) => (
+export const PartlyCloudyIcon: React.FC<{
+  width?: number;
+  height?: number;
+}> = ({ width = 72, height = 56 }) => (
   <Svg
     width={width}
     height={height}

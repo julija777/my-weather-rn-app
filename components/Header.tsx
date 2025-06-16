@@ -1,5 +1,5 @@
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { YStack, XStack, Heading } from 'tamagui';
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { YStack, XStack, Heading } from "tamagui";
 
 type HeaderProps = {
   color: string;
@@ -8,13 +8,18 @@ type HeaderProps = {
   right?: React.ReactNode;
 };
 
-export default function Header({ color, title, notification, right }: HeaderProps) {
+export default function Header({
+  color,
+  title,
+  notification,
+  right,
+}: HeaderProps) {
   const insets = useSafeAreaInsets();
 
   return (
     <YStack
       backgroundColor={color}
-      paddingTop={insets.top + 18} 
+      paddingTop={insets.top + 18}
       paddingBottom="$4"
       paddingHorizontal="$5"
       width="100%"
@@ -27,11 +32,7 @@ export default function Header({ color, title, notification, right }: HeaderProp
         </Heading>
         {right}
       </XStack>
-      {notification && (
-        <YStack marginTop="$3">
-          {notification}
-        </YStack>
-      )}
+      {notification && <YStack marginTop="$3">{notification}</YStack>}
     </YStack>
   );
 }

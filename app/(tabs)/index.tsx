@@ -1,26 +1,26 @@
-import { LocationCard } from '@/components/Cards/LocationCard';
-import { WeatherCard } from '@/components/Cards/WeatherCard';
-import Header from '@/components/Header';
-import NotificationCard from '@/components/Cards/NotificationCard';
-import { SlidingTabs } from '@/components/SlidingTabs';
-import { useWeatherData } from '@/hooks/useWeatherData';
-import { THEME_COLORS, type ColorScheme } from '@/types/colourTypes';
-import React, { useState } from 'react';
-import { ImageBackground } from 'react-native';
-import { ScrollView, YStack } from 'tamagui';
+import { LocationCard } from "@/components/Cards/LocationCard";
+import { WeatherCard } from "@/components/Cards/WeatherCard";
+import Header from "@/components/Header";
+import NotificationCard from "@/components/Cards/NotificationCard";
+import { SlidingTabs } from "@/components/SlidingTabs";
+import { useWeatherData } from "@/hooks/useWeatherData";
+import { THEME_COLORS, type ColorScheme } from "@/types/colourTypes";
+import React, { useState } from "react";
+import { ImageBackground } from "react-native";
+import { ScrollView, YStack } from "tamagui";
 import HomeGoodWeather from "../../assets/images/HomeGoodWeather.png";
 
 const TABS = [
-  { key: 'teal', label: 'Now' },
-  { key: 'blue', label: 'Tomorrow' },
-  { key: 'purple', label: 'Next 5 Days' },
+  { key: "teal", label: "Now" },
+  { key: "blue", label: "Tomorrow" },
+  { key: "purple", label: "Next 5 Days" },
 ] as const;
 
 export default function HomeScreen() {
   const DEFAULT_COORDINATES = { latitude: 51.5072, longitude: -0.1276 };
-  const [activeTab, setActiveTab] = useState<ColorScheme>('teal');
+  const [activeTab, setActiveTab] = useState<ColorScheme>("teal");
   const { data, loading } = useWeatherData(activeTab);
-  const userName = 'Julia';
+  const userName = "Julia";
 
   return (
     <ImageBackground
@@ -33,7 +33,7 @@ export default function HomeScreen() {
         title={`Good afternoon, ${userName}`}
         notification={
           <NotificationCard
-            icon={'🚀'}
+            icon={"🚀"}
             message="Getting started"
             description="Rocket is launching"
             backgroundColor="white"
@@ -48,31 +48,15 @@ export default function HomeScreen() {
       />
       <LocationCard />
       <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
-        <YStack >
-          {activeTab === 'teal' && (
-            <WeatherCard data={data} loading={loading} variant="now"  />
+        <YStack>
+          {activeTab === "teal" && (
+            <WeatherCard data={data} loading={loading} variant="now" />
           )}
-          {activeTab === 'blue' && (
-            <WeatherCard data={data} loading={loading} variant="tomorrow"  />
+          {activeTab === "blue" && (
+            <WeatherCard data={data} loading={loading} variant="tomorrow" />
           )}
-          {activeTab === 'purple' && data?.daily?.time && (
-            // <HorizontalCarousel>
-            //   {data.daily.time.map((date: string, idx: number) => (
-            //     <DayCard
-            //       key={date}
-            //       date={date}
-            //       min={data.daily.temperature_2m_min[idx]}
-            //       max={data.daily.temperature_2m_max[idx]}
-            //       weatherCode={data.daily.weathercode[idx]}
-            //       unitSymbol="°C"
-            //     />
-            //   ))}
-            // </HorizontalCarousel>
-            <WeatherCard
-              data={data}
-              loading={loading}
-              variant="5-day"
-            />
+          {activeTab === "purple" && data?.daily?.time && (
+            <WeatherCard data={data} loading={loading} variant="5-day" />
           )}
         </YStack>
       </ScrollView>

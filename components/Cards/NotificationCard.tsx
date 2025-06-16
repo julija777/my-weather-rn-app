@@ -1,4 +1,4 @@
-import { Card, Stack, Text, XStack } from 'tamagui';
+import { Card, Stack, Text, XStack } from "tamagui";
 
 type NotificationCardProps = {
   icon?: React.ReactNode;
@@ -15,12 +15,12 @@ const NotificationCard = ({
   backgroundColor,
   onPress,
 }: NotificationCardProps) => (
- <Card
-      elevate
-      backgroundColor={backgroundColor}
-      padding="$5"
-      onPress={onPress}
-    >
+  <Card
+    elevate
+    backgroundColor={backgroundColor}
+    padding="$5"
+    onPress={onPress}
+  >
     <XStack alignItems="center" gap="$2">
       {icon && <Text fontSize="$4">{icon}</Text>}
       <Stack flex={1}>
@@ -34,7 +34,7 @@ const NotificationCard = ({
         )}
       </Stack>
     </XStack>
-    </Card>
+  </Card>
 );
 
 export default NotificationCard;

@@ -1,4 +1,4 @@
-export type TemperatureUnit = 'celsius' | 'fahrenheit';
+export type TemperatureUnit = "celsius" | "fahrenheit";
 
 export interface CurrentWeather {
   location: unknown;
@@ -17,7 +17,7 @@ export interface CurrentWeather {
   wind_speed_10m: number;
   wind_direction_10m: number;
   wind_gusts_10m: number;
-  time: string; 
+  time: string;
 }
 
 export interface DailyWeather {

@@ -1,4 +1,4 @@
-import { observable } from '@legendapp/state';
+import { observable } from "@legendapp/state";
 
 export const cityState = observable({
   savedCities: [] as { name: string; weather: CurrentWeatherData }[],
@@ -9,4 +9,3 @@ export interface CurrentWeatherData {
   temperature: number;
   wind: number;
 }
-
