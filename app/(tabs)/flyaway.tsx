@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { Button, Card, Input, ScrollView, Separator, Text, YStack } from 'tamagui';
-import { ImageBackground } from 'react-native';
-import { cityState } from '@/store/cityStore';
-import WeatherDayCard from '@/components/Cards/WeatherDayCard';
 import Header from '@/components/Header';
-import FlyAwayGoodWeather from "../../assets/images/FlyAwayGoodWeather.png"; 
+import { cityState } from '@/store/cityStore';
+import React, { useState } from 'react';
+import { ImageBackground } from 'react-native';
+import { Button, Card, Input, ScrollView, Separator, Text, YStack } from 'tamagui';
+import FlyAwayGoodWeather from "../../assets/images/FlyAwayGoodWeather.png";
 
 export default function FlyAway() {
   const [city, setCity] = useState('');
@@ -32,38 +31,32 @@ export default function FlyAway() {
 
       const weatherData = await weatherRes.json();
 
-      const today = 0;
-
-      const cityWeather = {
+      // Create the weather object that matches what we display
+      const currentWeather = {
+        city: name,
         temperature: weatherData.current_weather.temperature,
-        windspeed: weatherData.current_weather.windspeed,
-        weathercode: weatherData.daily.weathercode[today],
-        date: weatherData.daily.time[today],
-        min: weatherData.daily.temperature_2m_min[today],
-        max: weatherData.daily.temperature_2m_max[today],
+        wind: weatherData.current_weather.windspeed,
       };
 
-      setWeather({
-        city: name,
-        temperature: cityWeather.temperature,
-        wind: cityWeather.windspeed,
-      });
+      setWeather(currentWeather);
 
+      // Save the same structure we display
       const existing = cityState.savedCities.get();
       if (!existing.find((c) => c.name === name)) {
-        cityState.savedCities.set((prev) => [...prev, { name, weather: cityWeather }]);
+        cityState.savedCities.set((prev) => [...prev, { name, weather: currentWeather }]);
       }
     } catch (err) {
       console.error('Weather fetch error:', err);
     }
   };
+
   return (
     <ImageBackground
       source={FlyAwayGoodWeather} 
       resizeMode="cover"
       style={{ flex: 1 }}
     >
-      <Header title="🌤 Where to Fly Away?" color={'#42d7f5'} />
+      <Header title="🌤 Where to Fly Away?" color={'#00596B'} />
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
         <YStack padding="$4" flex={1}>
           <Input
@@ -85,14 +78,11 @@ export default function FlyAway() {
           <YStack gap="$3" marginTop="$2">
             {cityState.savedCities.get().map((cityObj, idx) => (
               <YStack key={idx} padding="$3" backgroundColor="$backgroundLight" borderRadius="$2">
-                <Text fontSize="$8" fontWeight="800" color={'#42d7f5'} alignSelf='center' paddingBottom="$2">{cityObj.name}</Text>
-                <WeatherDayCard
-                  date={cityObj.weather.date}
-                  min={cityObj.weather.min}
-                  max={cityObj.weather.max}
-                  weatherCode={cityObj.weather.weathercode}
-                  unitSymbol="°C"
-                />
+                <Card elevate padding="$4">
+                  <Text fontSize="$6" fontWeight="600">{cityObj.weather.city}</Text>
+                  <Text>Temperature: {cityObj.weather.temperature}°C</Text>
+                  <Text>Wind Speed: {cityObj.weather.wind} km/h</Text>
+                </Card>
               </YStack>
             ))}
           </YStack>

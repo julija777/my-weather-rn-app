@@ -12,12 +12,14 @@ export const LocationCard: React.FC = () => {
 
   return (
     <YStack
-      backgroundColor="rgba(73, 201, 227, 0.6)"
+      backgroundColor="rgba(73, 201, 227, 0.8)"
       borderRadius="$4"
       padding="$3"
       minWidth={140}
       alignItems="center"
-      marginHorizontal={6}
+      marginHorizontal={16}
+      marginTop="$4"
+      marginBottom={'$4'}
     >
       <Text fontSize="$6" fontWeight="600">Weather for</Text>
       {city ? (

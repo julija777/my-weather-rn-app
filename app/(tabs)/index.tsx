@@ -1,16 +1,14 @@
+import { LocationCard } from '@/components/Cards/LocationCard';
+import { WeatherCard } from '@/components/Cards/WeatherCard';
+import Header from '@/components/Header';
+import NotificationCard from '@/components/Cards/NotificationCard';
+import { SlidingTabs } from '@/components/SlidingTabs';
+import { useWeatherData } from '@/hooks/useWeatherData';
+import { THEME_COLORS, type ColorScheme } from '@/types/colourTypes';
 import React, { useState } from 'react';
 import { ImageBackground } from 'react-native';
-import { ScrollView, YStack, Text } from 'tamagui';
-import Header from '@/components/Header';
-import NotificationCard from '@/components/NotificationCard';
-import { SlidingTabs } from '@/components/SlidingTabs';
-import { THEME_COLORS, type ColorScheme } from '@/types/colourTypes';
+import { ScrollView, YStack } from 'tamagui';
 import HomeGoodWeather from "../../assets/images/HomeGoodWeather.png";
-import { useWeatherData } from '@/hooks/useWeatherData';
-import { CombinedWeatherCard } from '@/components/Cards/CombinedWeatherCard';
-import WeatherDayCard from '@/components/Cards/WeatherDayCard';
-import HorizontalCarousel from '@/components/HorizontalCarousel';
-import { LocationCard } from '@/components/Cards/LocationCard';
 
 const TABS = [
   { key: 'teal', label: 'Now' },
@@ -52,24 +50,29 @@ export default function HomeScreen() {
       <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
         <YStack >
           {activeTab === 'teal' && (
-            <CombinedWeatherCard data={data} loading={loading} variant="now"  />
+            <WeatherCard data={data} loading={loading} variant="now"  />
           )}
           {activeTab === 'blue' && (
-            <CombinedWeatherCard data={data} loading={loading} variant="tomorrow"  />
+            <WeatherCard data={data} loading={loading} variant="tomorrow"  />
           )}
           {activeTab === 'purple' && data?.daily?.time && (
-            <HorizontalCarousel>
-              {data.daily.time.map((date: string, idx: number) => (
-                <WeatherDayCard
-                  key={date}
-                  date={date}
-                  min={data.daily.temperature_2m_min[idx]}
-                  max={data.daily.temperature_2m_max[idx]}
-                  weatherCode={data.daily.weathercode[idx]}
-                  unitSymbol="°C"
-                />
-              ))}
-            </HorizontalCarousel>
+            // <HorizontalCarousel>
+            //   {data.daily.time.map((date: string, idx: number) => (
+            //     <DayCard
+            //       key={date}
+            //       date={date}
+            //       min={data.daily.temperature_2m_min[idx]}
+            //       max={data.daily.temperature_2m_max[idx]}
+            //       weatherCode={data.daily.weathercode[idx]}
+            //       unitSymbol="°C"
+            //     />
+            //   ))}
+            // </HorizontalCarousel>
+            <WeatherCard
+              data={data}
+              loading={loading}
+              variant="5-day"
+            />
           )}
         </YStack>
       </ScrollView>

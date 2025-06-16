@@ -1,178 +1,228 @@
-import React, { useEffect, useState } from 'react';
-import { ScrollView } from 'react-native';
-import { Card, Text, YStack, Spinner } from 'tamagui';
+import React from 'react';
+import { YStack, Text, View, Spinner } from 'tamagui';
+import { PartlyCloudyIcon } from '@/assets/icons/PartlyCloudyIcon'; // Use your icon logic
+import { WEATHER_DESCRIPTIONS } from '@/constants/constants';
+import { THEME_COLORS } from '@/types/colourTypes';
 
-export const DataVariant = {
-  Now: {
-    key: 'Now',
-    params: 'current_weather=true&hourly=temperature_2m,relative_humidity_2m,uv_index',
-  },
-  Tomorrow: {
-    key: 'Tomorrow',
-    params: 'daily=temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_sum,windspeed_10m_max&timezone=auto',
-  },
-  FiveDays: {
-    key: 'FiveDays',
-    params: 'daily=temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_sum,windspeed_10m_max&timezone=auto',
-  },
-  SevenDays: {
-    key: 'SevenDays',
-    params: 'daily=temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_sum,windspeed_10m_max&timezone=auto',
-  },
-  TenDays: {
-    key: 'TenDays',
-    params: 'daily=temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_sum,windspeed_10m_max&timezone=auto',
-  },
-  SixteenDays: {
-    key: 'SixteenDays',
-    params: 'daily=temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_sum,windspeed_10m_max&timezone=auto',
-  },
-} as const;
+interface WeatherCardProps {
+  data: any;
+  loading: boolean;
+  variant: 'now' | 'tomorrow' | '5-day';
+  unitSymbol?: string;
+  city?: string;
+  country?: string;
+  unit?: 'metric' | 'imperial';
+}
 
-export type DataVariantType = (typeof DataVariant)[keyof typeof DataVariant];
+const getWeatherDescription = (code: number): string =>
+  WEATHER_DESCRIPTIONS[code] || 'Weather data unavailable';
 
-export type Location = {
-  latitude: number;
-  longitude: number;
-};
-
-type WeatherCardProps = {
-  location: Location;
-  locationName: string;
-  variant?: DataVariantType;
-  size?: 'xs' | 'sm' | 'md' | 'lg';
-};
-
-const sizeStyles = {
-  xs: {
-    minHeight: 120,
-    padding: '$2',
-    fontSize: '$2',
-  },
-  sm: {
-    minHeight: 160,
-    padding: '$3',
-    fontSize: '$3',
-  },
-  md: {
-    minHeight: 200,
-    padding: '$4',
-    fontSize: '$4',
-  },
-  lg: {
-    minHeight: 240,
-    padding: '$5',
-    fontSize: '$5',
-  },
-};
-
-export default function WeatherCard({
-  location,
-  locationName,
+export const WeatherCard: React.FC<WeatherCardProps> = ({
+  data,
+  loading,
   variant,
-  size = 'md',
-}: WeatherCardProps) {
-  const [weatherData, setWeatherData] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
-
-  const fetchWeather = async () => {
-    try {
-      setLoading(true);
-      const res = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&${variant.params}`
-      );
-      const json = await res.json();
-      setWeatherData(json);
-    } catch (e) {
-      console.error('Failed to fetch weather', e);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (location && variant) {
-      fetchWeather();
-    }
-  }, [location.latitude, location.longitude, variant]);
-
-  const style = sizeStyles[size];
-
-  const GlassCard = ({ children }: { children: React.ReactNode }) => (
-    <Card
-      elevate
-      paddingHorizontal={'$4'}
-      paddingVertical={'$3'}
-      borderColor="yellow"
-      borderStyle="solid"
-      borderWidth={1}
-      borderRadius="$6"
-      marginVertical="$4"
-      marginHorizontal={'$4'}
-      backgroundColor="rgba(73, 201, 227, 0.4)"
-      minHeight={style.minHeight}
-      padding={style.padding}
-    >
-      {children}
-    </Card>
-  );
-
+  unitSymbol = '°C',
+  city,
+}) => {
   if (loading) {
     return (
-      <GlassCard>
-        <YStack flex={1} justifyContent="center" alignItems="center" height={style.minHeight}>
-          <Text fontSize={style.fontSize}>Loading weather for {locationName}...</Text>
-          <Spinner size="large" color="black" />
-        </YStack>
-      </GlassCard>
+      <YStack alignItems="center" justifyContent="center" padding="$4">
+        <Spinner size="large" color={THEME_COLORS.teal} />
+      </YStack>
     );
   }
 
-  if (!weatherData) {
+  if (!data) {
     return (
-      <GlassCard>
-        <YStack flex={1} justifyContent="center" alignItems="center" height={style.minHeight}>
-          <Text fontSize={style.fontSize}>Error loading weather data for {locationName}.</Text>
-        </YStack>
-      </GlassCard>
+      <YStack alignItems="center" justifyContent="center" padding="$4">
+        <Text color="red">Weather data unavailable</Text>
+      </YStack>
     );
   }
 
-  const current = weatherData?.current_weather;
-  const daily = weatherData?.daily;
-  const hourly = weatherData?.hourly;
+  // Prepare data based on variant
+  let temperature = 0;
+  let minTemp = 0;
+  let maxTemp = 0;
+  let weatherCode = 0;
+  let time = '';
+  let dayLabel = '';
 
-  return (
-    <GlassCard>
-      <YStack flex={1} padding={style.padding}>
-        <Text fontWeight="bold" fontSize={style.fontSize} marginBottom="$2">
-          Weather for {locationName}
+  if (variant === 'now') {
+    temperature = Math.round(data?.current_weather?.temperature ?? 0);
+    weatherCode = data?.current_weather?.weathercode ?? 0;
+    time = data?.current_weather?.time ?? '';
+    dayLabel = new Date(time).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    
+    // Calculate today's min/max from hourly data since daily data is not available for today
+    if (data?.hourly?.temperature_2m && data?.hourly?.time) {
+      const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+      const todayTemperatures: any[] = [];
+      
+      // Filter today's temperatures from hourly data
+      data.hourly.time.forEach((hourTime: string, index: string | number) => {
+        if (hourTime.startsWith(today)) {
+          todayTemperatures.push(data.hourly.temperature_2m[index]);
+        }
+      });
+      
+      if (todayTemperatures.length > 0) {
+        minTemp = Math.min(...todayTemperatures);
+        maxTemp = Math.max(...todayTemperatures);
+      } else {
+        // Fallback if no today data found
+        minTemp = 0;
+        maxTemp = 0;
+      }
+    } else {
+      minTemp = 0;
+      maxTemp = 0;
+    }
+    
+    console.log('Today calculated temps - minTemp:', minTemp, 'maxTemp:', maxTemp);
+  } else if (variant === 'tomorrow') {
+    // Use the daily data which contains tomorrow's forecast
+    if (data?.daily?.temperature_2m_min && data?.daily?.temperature_2m_max && data?.daily?.time) {
+      minTemp = data.daily.temperature_2m_min[0] ?? 0;
+      maxTemp = data.daily.temperature_2m_max[0] ?? 0;
+      weatherCode = data.daily.weathercode?.[0] ?? 0;
+      temperature = Math.round(maxTemp);
+      time = data.daily.time[0] ?? '';
+      dayLabel = new Date(time).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    } else {
+      // Fallback if daily data is not available
+      minTemp = 0;
+      maxTemp = 0;
+      weatherCode = 0;
+      temperature = 0;
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      time = tomorrow.toISOString().split('T')[0];
+      dayLabel = tomorrow.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    }
+    
+    console.log('Tomorrow temps - minTemp:', minTemp, 'maxTemp:', maxTemp, 'temperature:', temperature);
+  } else if (variant === '5-day') {
+    temperature = 0;
+    minTemp = 0;
+    maxTemp = 0;
+    weatherCode = 0;
+    time = '';
+    dayLabel = '5-Day Forecast';
+  }
+
+  const weatherDescription = getWeatherDescription(weatherCode);
+
+  // Handle 5-day forecast separately
+  if (variant === '5-day') {
+    return (
+      <YStack
+        backgroundColor="rgba(73, 201, 227, 0.4)"
+        borderRadius="$4"
+        padding="$4"
+        marginTop='$4'
+        marginHorizontal='$3'  
+        alignSelf="center"
+        shadowOpacity={0.2}
+        role="region"
+        aria-label="5-Day Weather Forecast"
+      >
+        <Text fontSize="$6" fontWeight="bold" marginBottom="$4" textAlign="center">
+          5-Day Forecast
         </Text>
-
-        {variant.key === 'Now' && current && (
-          <>
-            <Text fontSize={style.fontSize}>Temperature: {current.temperature} °C</Text>
-            <Text fontSize={style.fontSize}>Wind: {current.windspeed} km/h</Text>
-            <Text fontSize={style.fontSize}>Humidity (hourly): {hourly?.relative_humidity_2m?.[0]}%</Text>
-            <Text fontSize={style.fontSize}>UV Index (hourly): {hourly?.uv_index?.[0]}</Text>
-          </>
-        )}
-
-        {variant.key !== 'Now' && daily && (
-          <ScrollView>
-            <Text fontSize={style.fontSize} fontWeight="bold">{variant.key} Forecast:</Text>
-            {daily.time?.slice(0, variant.key === 'Tomorrow' ? 1 : parseInt(variant.key.replace(/\D/g, ''))).map((day: string, i: number) => (
-              <YStack key={day} padding="$2" marginBottom="$2">
-                <Text fontSize={style.fontSize}>📅 {day}</Text>
-                <Text fontSize={style.fontSize}>Min: {daily.temperature_2m_min[i]} °C - Max: {daily.temperature_2m_max[i]} °C</Text>
-                <Text fontSize={style.fontSize}>Wind Max: {daily.windspeed_10m_max[i]} km/h</Text>
-                <Text fontSize={style.fontSize}>Precipitation: {daily.precipitation_sum[i]} mm</Text>
-                <Text fontSize={style.fontSize}>Max UV: {daily.uv_index_max[i]}</Text>
-              </YStack>
-            ))}
-          </ScrollView>
+        
+        {data?.daily?.time ? (
+          <YStack gap="$3">
+            {data.daily.time.slice(0, 5).map((date: string, idx: number) => {
+              const dayName = new Date(date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+              const min = Math.round(data.daily.temperature_2m_min[idx]);
+              const max = Math.round(data.daily.temperature_2m_max[idx]);
+              const code = data.daily.weathercode[idx];
+              const description = getWeatherDescription(code);
+              
+              return (
+                <YStack
+                  key={date}
+                  backgroundColor="rgba(255, 255, 255, 0.2)"
+                  borderRadius="$3"
+                  padding="$3"
+                >
+                  <YStack alignItems="center" gap="$2">
+                    <Text fontSize="$4" fontWeight="bold" color="$black">
+                      {dayName}
+                    </Text>
+                    
+                    <YStack alignItems="center" gap="$1">
+                      <View width={40} height={40}>
+                        <PartlyCloudyIcon />
+                      </View>
+                      <Text fontSize="$3" color="$black" textAlign="center" numberOfLines={1}>
+                        {description}
+                      </Text>
+                    </YStack>
+                    
+                    <YStack alignItems="center">
+                      <Text fontSize="$5" fontWeight="bold" color={THEME_COLORS.teal}>
+                        {max}°{unitSymbol}
+                      </Text>
+                      <Text fontSize="$4" color="$gray8" fontWeight="600">
+                        {min}°{unitSymbol}
+                      </Text>
+                    </YStack>
+                  </YStack>
+                </YStack>
+              );
+            })}
+          </YStack>
+        ) : (
+          <Text color="red" textAlign="center">5-day forecast data unavailable</Text>
         )}
       </YStack>
-    </GlassCard>
+    );
+  }
+
+  return (
+  <YStack
+  backgroundColor="rgba(73, 201, 227, 0.4)"
+  borderRadius="$4"
+  padding="$3"
+  marginTop='$4'
+  paddingHorizontal='$5' 
+  marginHorizontal='$3'  
+  alignSelf="center"
+  shadowOpacity={0.2}
+  role="region"
+  aria-label="Weather Information"
+    >
+        <Text fontSize="$6" fontWeight="bold" marginBottom="$2">
+  {city}
+        </Text>
+        <YStack inlineSize={'50%'} gap="$2">
+          <Text fontSize={64} fontWeight="bold" color={THEME_COLORS.teal}>
+            {temperature}°
+            <Text fontSize={32} fontWeight="600" color={THEME_COLORS.teal}>
+              {unitSymbol}
+            </Text>
+          </Text>
+        </YStack>
+        <YStack alignItems="flex-end">
+          <View width={64} height={64} marginBottom="$2">
+            <PartlyCloudyIcon />
+          </View>
+          <Text fontSize="$4" textTransform="capitalize" fontWeight="bold">
+            {weatherDescription}
+          </Text>
+          <Text color="$black" fontWeight="bold" fontSize="$2" marginTop="$3">
+            Min {minTemp}{unitSymbol} • Max {maxTemp}{unitSymbol}
+          </Text>
+        </YStack>
+
+        <Text fontSize="$7" fontWeight="600">
+          {variant === 'tomorrow' ? 'Tomorrow' : (time ? new Date(time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : '')}
+        </Text>
+        <Text fontSize="$4" color="$black" fontWeight="bold" marginTop="$1">
+          {dayLabel}
+        </Text>
+      </YStack>
   );
-}
+};
