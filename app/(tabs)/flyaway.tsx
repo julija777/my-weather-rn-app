@@ -41,7 +41,6 @@ export default function FlyAway() {
 
       const weatherData = await weatherRes.json();
 
-      // Create the weather object that matches what we display
       const currentWeather = {
         city: name,
         temperature: weatherData.current_weather.temperature,
@@ -50,7 +49,6 @@ export default function FlyAway() {
 
       setWeather(currentWeather);
 
-      // Save the same structure we display
       const existing = cityState.savedCities.get();
       if (!existing.find((c) => c.name === name)) {
         cityState.savedCities.set((prev) => [
@@ -61,6 +59,26 @@ export default function FlyAway() {
     } catch (err) {
       console.error("Weather fetch error:", err);
     }
+  };
+
+  // Liquid glass card styles
+  const glassCardStyle = {
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.3)",
+    backdropFilter: "blur(20px)",
+    shadowColor: "rgba(0, 0, 0, 0.1)",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 16,
+    elevation: 8,
+  };
+
+  const glassTextStyle = {
+    color: "rgba(255, 255, 255, 0.95)",
+    textShadowColor: "rgba(0, 0, 0, 0.3)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   };
 
   return (
@@ -80,24 +98,58 @@ export default function FlyAway() {
             value={city}
             onChangeText={setCity}
             marginBottom="$2"
+            backgroundColor="rgba(255, 255, 255, 0.2)"
+            borderColor="rgba(255, 255, 255, 0.4)"
+            color="white"
+            placeholderTextColor="rgba(255, 255, 255, 0.7)"
           />
-          <Button onPress={handleSearch}>Search</Button>
+          <Button
+            onPress={handleSearch}
+            backgroundColor="rgba(255, 255, 255, 0.2)"
+            borderColor="rgba(255, 255, 255, 0.4)"
+            borderWidth={1}
+            color="white"
+            pressStyle={{
+              backgroundColor: "rgba(255, 255, 255, 0.3)",
+            }}
+          >
+            Search
+          </Button>
           {weather && (
-            <Card elevate padding="$4" marginTop="$4">
-              <Text fontSize="$6" fontWeight="600">
+            <Card
+              padding="$4"
+              marginTop="$4"
+              backgroundColor="transparent"
+              borderRadius="$6"
+              style={glassCardStyle}
+            >
+              <Text fontSize="$6" fontWeight="600" style={glassTextStyle}>
                 {weather.city}
               </Text>
-              <Text>Temperature: {weather.temperature}°C</Text>
-              <Text>Wind Speed: {weather.wind} km/h</Text>
+              <Text style={glassTextStyle}>
+                Temperature: {weather.temperature}°C
+              </Text>
+              <Text style={glassTextStyle}>
+                Wind Speed: {weather.wind} km/h
+              </Text>
             </Card>
           )}
-          <Separator marginTop="$4" marginBottom="$4" />
+          <Separator
+            marginTop="$4"
+            marginBottom="$4"
+            backgroundColor="rgba(255, 255, 255, 0.3)"
+          />
           <Text
             fontSize="$8"
             fontWeight="800"
             fontStyle="italic"
             color={"#fff"}
             alignSelf="center"
+            style={{
+              textShadowColor: "rgba(0, 0, 0, 0.6)",
+              textShadowOffset: { width: 0, height: 2 },
+              textShadowRadius: 4,
+            }}
           >
             Saved Cities
           </Text>
@@ -106,15 +158,29 @@ export default function FlyAway() {
               <YStack
                 key={idx}
                 padding="$3"
-                backgroundColor="$backgroundLight"
-                borderRadius="$2"
+                backgroundColor="transparent"
+                borderRadius="$4"
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.08)",
+                  borderWidth: 1,
+                  borderColor: "rgba(255, 255, 255, 0.2)",
+                }}
               >
-                <Card elevate padding="$4">
-                  <Text fontSize="$6" fontWeight="600">
+                <Card
+                  padding="$4"
+                  backgroundColor="transparent"
+                  borderRadius="$6"
+                  style={glassCardStyle}
+                >
+                  <Text fontSize="$6" fontWeight="600" style={glassTextStyle}>
                     {cityObj.weather.city}
                   </Text>
-                  <Text>Temperature: {cityObj.weather.temperature}°C</Text>
-                  <Text>Wind Speed: {cityObj.weather.wind} km/h</Text>
+                  <Text style={glassTextStyle}>
+                    Temperature: {cityObj.weather.temperature}°C
+                  </Text>
+                  <Text style={glassTextStyle}>
+                    Wind Speed: {cityObj.weather.wind} km/h
+                  </Text>
                 </Card>
               </YStack>
             ))}
