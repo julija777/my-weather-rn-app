@@ -3,12 +3,7 @@ import { cityState } from "@/store/cityStore";
 import React, { useState } from "react";
 import { ImageBackground } from "react-native";
 import { observer } from "@legendapp/state/react";
-import {
-  ScrollView,
-  Separator,
-  Text,
-  YStack,
-} from "tamagui";
+import { ScrollView, Separator, Text, YStack } from "tamagui";
 import FlyAwayGoodWeather from "../../assets/images/FlyAwayGoodWeather.png";
 import FlyAwayInput from "@/components/FlyAwayInput";
 import FlyAwayButton from "@/components/FlyAwayButton";
@@ -26,7 +21,7 @@ export default function FlyAway() {
   const handleSearch = async () => {
     try {
       const geoRes = await fetch(
-        `https://geocoding-api.open-meteo.com/v1/search?name=${city}`
+        `https://geocoding-api.open-meteo.com/v1/search?name=${city}`,
       );
       const geoData = await geoRes.json();
 
@@ -38,7 +33,7 @@ export default function FlyAway() {
       const { latitude, longitude, name } = geoData.results[0];
 
       const weatherRes = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&daily=temperature_2m_min,temperature_2m_max,weathercode&timezone=auto`
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&daily=temperature_2m_min,temperature_2m_max,weathercode&timezone=auto`,
       );
 
       const weatherData = await weatherRes.json();
@@ -120,4 +115,3 @@ export default function FlyAway() {
     </ImageBackground>
   );
 }
-

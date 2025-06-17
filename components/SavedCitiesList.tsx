@@ -20,7 +20,7 @@ const SavedCitiesList = observer(() => {
             icon={null}
             onDelete={() => {
               cityState.savedCities.set((prev) =>
-                prev.filter((c) => c.name !== cityObj.name)
+                prev.filter((c) => c.name !== cityObj.name),
               );
             }}
           />

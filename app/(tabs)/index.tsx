@@ -17,7 +17,6 @@ const TABS = [
 ] as const;
 
 export default function HomeScreen() {
-  const DEFAULT_COORDINATES = { latitude: 51.5072, longitude: -0.1276 };
   const [activeTab, setActiveTab] = useState<ColorScheme>("teal");
   const { data, loading } = useWeatherData(activeTab);
   const userName = "Julia";
