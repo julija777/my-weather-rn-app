@@ -35,3 +35,27 @@ export const fetchWeatherData = async (
   const data: WeatherApiResponse = await response.json();
   return data;
 };
+
+export const fetchUVData = async (
+  latitude: number = DEFAULT_LATITUDE,
+  longitude: number = DEFAULT_LONGITUDE,
+): Promise<{ uv_index: number }> => {
+  const params = new URLSearchParams({
+    latitude: latitude.toString(),
+    longitude: longitude.toString(),
+    current: "uv_index",
+    timezone: "auto",
+  });
+
+  const response = await fetch(`${API_BASE_URL}?${params.toString()}`);
+
+  if (!response.ok) {
+    const errorBody = await response.text();
+    throw new Error(`Failed to fetch UV data: ${response.status} ${errorBody}`);
+  }
+
+  const data = await response.json();
+  return {
+    uv_index: data.current?.uv_index || 0,
+  };
+};

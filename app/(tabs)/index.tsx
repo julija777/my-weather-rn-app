@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import { ImageBackground } from "react-native";
 import { ScrollView, YStack } from "tamagui";
 import HomeGoodWeather from "../../assets/images/HomeGoodWeather.png";
+import { useWeatherNotification } from "@/hooks/useWeatherNotification";
 
 const TABS = [
   { key: "teal", label: "Now" },
@@ -19,8 +20,8 @@ const TABS = [
 export default function HomeScreen() {
   const [activeTab, setActiveTab] = useState<ColorScheme>("teal");
   const { data, loading } = useWeatherData(activeTab);
-  const userName = "Julia";
-
+  const { notification, closeNotification } = useWeatherNotification(activeTab);
+  const userName = "Team";
   return (
     <ImageBackground
       source={HomeGoodWeather}
@@ -31,12 +32,15 @@ export default function HomeScreen() {
         color={THEME_COLORS[activeTab]}
         title={`Good afternoon, ${userName}`}
         notification={
-          <NotificationCard
-            icon={"🚀"}
-            message="Getting started"
-            description="Rocket is launching"
-            backgroundColor="white"
-          />
+          notification ? (
+            <NotificationCard
+              icon={notification.icon}
+              message={notification.message}
+              description={notification.description}
+              backgroundColor="white"
+              onClose={closeNotification}
+            />
+          ) : null
         }
       />
       <SlidingTabs

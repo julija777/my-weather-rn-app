@@ -4,7 +4,7 @@ import { YStack, XStack, Heading } from "tamagui";
 type HeaderProps = {
   color: string;
   title: string;
-  notification?: React.ReactNode;
+  notification?: React.ReactNode | (() => React.ReactNode);
   right?: React.ReactNode;
 };
 
@@ -15,6 +15,11 @@ export default function Header({
   right,
 }: HeaderProps) {
   const insets = useSafeAreaInsets();
+
+  const renderNotification = () => {
+    if (!notification) return null;
+    return typeof notification === "function" ? notification() : notification;
+  };
 
   return (
     <YStack
@@ -32,7 +37,9 @@ export default function Header({
         </Heading>
         {right}
       </XStack>
-      {notification && <YStack marginTop="$3">{notification}</YStack>}
+      {renderNotification() && (
+        <YStack marginTop="$3">{renderNotification()}</YStack>
+      )}
     </YStack>
   );
 }
