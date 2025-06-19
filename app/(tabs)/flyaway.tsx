@@ -2,7 +2,6 @@ import Header from "@/components/Header";
 import { cityState } from "@/store/cityStore";
 import React, { useState } from "react";
 import { ImageBackground } from "react-native";
-import { observer } from "@legendapp/state/react";
 import { ScrollView, Separator, Text, YStack } from "tamagui";
 import FlyAwayGoodWeather from "../../assets/images/FlyAwayGoodWeather.png";
 import FlyAwayInput from "@/components/FlyAwayInput";
@@ -76,7 +75,6 @@ export default function FlyAway() {
             onChangeText={setCity}
           />
           <FlyAwayButton onPress={handleSearch}>Search</FlyAwayButton>
-
           {weather && (
             <FlyAwayCard
               city={weather.city}
@@ -87,13 +85,11 @@ export default function FlyAway() {
               icon={null}
             />
           )}
-
           <Separator
             marginTop="$4"
             marginBottom="$4"
             backgroundColor="rgba(255, 255, 255, 0.3)"
           />
-
           <Text
             fontSize="$8"
             fontWeight="800"
@@ -108,7 +104,6 @@ export default function FlyAway() {
           >
             Saved Cities
           </Text>
-
           <SavedCitiesList />
         </YStack>
       </ScrollView>

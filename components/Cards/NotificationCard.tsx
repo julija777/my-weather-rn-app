@@ -26,7 +26,7 @@ const NotificationCard = ({
   >
     <XStack alignItems="center" gap="$2">
       {icon && <Text fontSize="$4">{icon}</Text>}
-      <Stack flex={1}>
+      <Stack flex={1}> 
         <Text fontWeight="bold" fontSize="$5">
           {message}
         </Text>

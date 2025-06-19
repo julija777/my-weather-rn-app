@@ -43,5 +43,4 @@ export interface CurrentWeatherCardProps {
   weatherData: WeatherApiResponse;
   currentTime: Date;
   temperatureUnit: TemperatureUnit;
-  // locationName and onUnitChange are removed as they will be handled by the App component
 }

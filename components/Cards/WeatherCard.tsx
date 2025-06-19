@@ -3,6 +3,8 @@ import { YStack, Text, View, Spinner } from "tamagui";
 import { WEATHER_DESCRIPTIONS } from "@/constants/constants";
 import { THEME_COLORS } from "@/types/colourTypes";
 import { WeatherIcon } from "../WeatherIcon";
+import { glassCardStyle } from "../ui/glassCardStyle";
+
 
 interface WeatherCardProps {
   data: any;
@@ -175,7 +177,7 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({
           return (
             <YStack
               key={date}
-              backgroundColor="rgba(73, 201, 227, 0.4)"
+              style={glassCardStyle}
               borderRadius="$4"
               padding="$3"
               marginBottom="$2"
@@ -240,7 +242,7 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({
 
   return (
     <YStack
-      backgroundColor="rgba(73, 201, 227, 0.4)"
+      style={glassCardStyle}
       borderRadius="$4"
       padding="$3"
       marginHorizontal="$3"
