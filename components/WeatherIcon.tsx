@@ -3,7 +3,6 @@ import { View } from "tamagui";
 import { PartlyCloudyIcon } from "@/assets/icons/PartlyCloudyIcon";
 import {
   SunIcon,
-  CloudyIcon,
   RainIcon,
   SnowIcon,
   ThunderstormIcon,
@@ -26,7 +25,7 @@ const getWeatherIcon = (code: number) => {
   if (code === 2) return PartlyCloudyIcon;
 
   // Overcast
-  if (code === 3) return CloudyIcon;
+  if (code === 3) return PartlyCloudyIcon;
 
   // Fog conditions
   if (code >= 45 && code <= 48) return FogIcon;
