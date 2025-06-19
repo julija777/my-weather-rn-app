@@ -2,6 +2,12 @@ export const API_BASE_URL = "https://api.open-meteo.com/v1/forecast";
 export const DEFAULT_LATITUDE = 51.5072; // London
 export const DEFAULT_LONGITUDE = 0.1276; // London
 
+export const TABS = [
+  { key: "teal", label: "Now" },
+  { key: "blue", label: "Tomorrow" },
+  { key: "purple", label: "Next 5 Days" },
+] as const;
+
 // WMO Weather interpretation codes: https://open-meteo.com/en/docs#weathervariables
 export const WEATHER_DESCRIPTIONS: { [key: number]: string } = {
   0: "Clear sky",

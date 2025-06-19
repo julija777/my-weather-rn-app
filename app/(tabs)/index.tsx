@@ -10,12 +10,8 @@ import { ImageBackground } from "react-native";
 import { ScrollView, YStack } from "tamagui";
 import HomeGoodWeather from "../../assets/images/HomeGoodWeather.png";
 import { useWeatherNotification } from "@/hooks/useWeatherNotification";
+import { TABS } from "@/constants/constants";
 
-const TABS = [
-  { key: "teal", label: "Now" },
-  { key: "blue", label: "Tomorrow" },
-  { key: "purple", label: "Next 5 Days" },
-] as const;
 
 export default function HomeScreen() {
   const [activeTab, setActiveTab] = useState<ColorScheme>("teal");
