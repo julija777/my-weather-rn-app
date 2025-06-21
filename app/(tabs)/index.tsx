@@ -12,7 +12,6 @@ import HomeGoodWeather from "../../assets/images/HomeGoodWeather.png";
 import { useWeatherNotification } from "@/hooks/useWeatherNotification";
 import { TABS } from "@/constants/constants";
 
-
 export default function HomeScreen() {
   const [activeTab, setActiveTab] = useState<ColorScheme>("teal");
   const { data, loading } = useWeatherData(activeTab);

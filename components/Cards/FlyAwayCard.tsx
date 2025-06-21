@@ -12,17 +12,6 @@ type FlyAwayCardProps = {
   windUnit?: "km/h" | "mph"; // default to km/h
 };
 
-// export const glassCardStyle = {
-//   backgroundColor: "rgba(96, 167, 225, 0.61)",
-//   borderWidth: 1,
-//   borderColor: "rgba(21, 28, 224, 0.52)",
-//   backdropFilter: "blur(20px)",
-//   shadowColor: "rgba(0, 0, 0, 0.1)",
-//   shadowOffset: { width: 0, height: 8 },
-//   shadowOpacity: 0.3,
-//   shadowRadius: 16,
-//   elevation: 8,
-// };
 
 const glassTextStyle = {
   color: "rgba(12, 16, 78, 0.93)",
@@ -67,14 +56,14 @@ const FlyAwayCard: React.FC<FlyAwayCardProps> = ({
             size="$2"
             backgroundColor="rgba(236, 105, 144, 0.46)"
             borderColor="rgba(217, 228, 229, 0.87)"
-            borderWidth={1} 
+            borderWidth={1}
             color="rgb(8, 7, 7)"
             onPress={onDelete}
             position="absolute"
             top="$2"
             right="$2"
           >
-            ✕       
+            ✕
           </Button>
         )}
       </YStack>

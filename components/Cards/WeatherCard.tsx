@@ -5,7 +5,6 @@ import { THEME_COLORS } from "@/types/colourTypes";
 import { WeatherIcon } from "../WeatherIcon";
 import { glassCardStyle } from "../ui/glassCardStyle";
 
-
 interface WeatherCardProps {
   data: any;
   loading: boolean;
