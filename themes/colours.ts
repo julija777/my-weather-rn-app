@@ -1,0 +1,16 @@
+export const colours = {
+  moreBackground: "#9BE92E6D",
+  moreIcon: "#637378C4",
+  moreSeparator: "#637378C6",
+  background: "#ffffff",
+  borderColorLight: "#d9e4e5de",
+  textPrimary: "#222222",
+  textSecondary: "#666666",
+  externalLink: "#007aff",
+  accent: "#f39c12",
+  deleteButton: "#e74c3c",
+  glassTextPrimary: "#0C104EED",
+  glassBackgroundColor: "#60a7e19c",  
+glassBorderColor:    "#151ce084",  
+glassShadowColor:    "#0000001a",  
+};

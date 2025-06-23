@@ -4,7 +4,7 @@ The MVP for the app:
 
 **Weather Forecast App**
 
-You have been tasked with creating a weather forecast app using React Native. 
+You have been tasked with creating a weather forecast app using React Native.
 
 Your app should fetch weather data from an open API and display it to the user.
 
@@ -14,19 +14,19 @@ The app should have two screens:
 
 👉 a. Home screen:
 
- Display the current weather conditions: 
+Display the current weather conditions:
 
-temperature, 
+temperature,
 
-weather description, 
+weather description,
 
 and any other relevant information for the user's current location.
 
-👉 b. Forecast screen: 
+👉 b. Forecast screen:
 
 Display a 5-day weather forecast for the user's current location.
 
-The app should make use of an open API to fetch weather data. 
+The app should make use of an open API to fetch weather data.
 
 👉 You can choose any open weather API of your choice (e.g., OpenWeatherMap, WeatherAPI, etc.).
 
@@ -38,15 +38,15 @@ The app should make use of an open API to fetch weather data.
 
 👉 Please provide a GitHub repository link containing your React Native code along with a 👉README file explaining how to run the app and any additional information you think is necessary.
 
-👉 Note: You are free to use any additional libraries or tools you deem necessary to complete the task. 
+👉 Note: You are free to use any additional libraries or tools you deem necessary to complete the task.
 
-👉 Focus on writing clean, maintainable code, and demonstrate your proficiency in working with 
+👉 Focus on writing clean, maintainable code, and demonstrate your proficiency in working with
 
-👉 React Native components, 
+👉 React Native components,
 
-👉 state management, 
+👉 state management,
 
-👉 API integration, 
+👉 API integration,
 
 👉 and navigation.
 

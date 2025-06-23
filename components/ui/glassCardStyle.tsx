@@ -1,11 +1,20 @@
+import { colours } from "@/themes/colours";
+
 export const glassCardStyle = {
-  backgroundColor: "rgba(96, 167, 225, 0.61)",
+  backgroundColor: colours.glassBackgroundColor,
   borderWidth: 1,
-  borderColor: "rgba(21, 28, 224, 0.52)",
+  borderColor: colours.glassBorderColor,
   backdropFilter: "blur(20px)",
-  shadowColor: "rgba(0, 0, 0, 0.1)",
+  shadowColor: colours.glassShadowColor,
   shadowOffset: { width: 0, height: 8 },
   shadowOpacity: 0.3,
   shadowRadius: 16,
   elevation: 8,
+};
+
+export const glassTextStyle = {
+  color: colours.glassTextPrimary,
+  textShadowColor: colours.textPrimary,
+  textShadowOffset: { width: 0, height: 1 },
+  textShadowRadius: 2,
 };

@@ -1,6 +1,8 @@
 import React from "react";
 import { Card, Text, XStack, YStack, Button } from "tamagui";
-import { glassCardStyle } from "../ui/glassCardStyle";
+import { glassCardStyle, glassTextStyle } from "../ui/glassCardStyle";
+import { colours } from "@/themes/colours";
+import { LucideTrash2, Sun } from "lucide-react-native";
 
 type FlyAwayCardProps = {
   city: string;
@@ -10,25 +12,6 @@ type FlyAwayCardProps = {
   onDelete?: () => void;
   unit?: "C" | "F"; // default to C
   windUnit?: "km/h" | "mph"; // default to km/h
-};
-
-// export const glassCardStyle = {
-//   backgroundColor: "rgba(96, 167, 225, 0.61)",
-//   borderWidth: 1,
-//   borderColor: "rgba(21, 28, 224, 0.52)",
-//   backdropFilter: "blur(20px)",
-//   shadowColor: "rgba(0, 0, 0, 0.1)",
-//   shadowOffset: { width: 0, height: 8 },
-//   shadowOpacity: 0.3,
-//   shadowRadius: 16,
-//   elevation: 8,
-// };
-
-const glassTextStyle = {
-  color: "rgba(12, 16, 78, 0.93)",
-  textShadowColor: "rgba(0, 0, 0, 0.68)",
-  textShadowOffset: { width: 0, height: 1 },
-  textShadowRadius: 2,
 };
 
 const FlyAwayCard: React.FC<FlyAwayCardProps> = ({
@@ -65,16 +48,16 @@ const FlyAwayCard: React.FC<FlyAwayCardProps> = ({
         {onDelete && (
           <Button
             size="$2"
-            backgroundColor="rgba(236, 105, 144, 0.46)"
-            borderColor="rgba(217, 228, 229, 0.87)"
-            borderWidth={1} 
-            color="rgb(8, 7, 7)"
+            backgroundColor={colours.deleteButton}
+            borderColor={colours.borderColorLight}
+            borderWidth={1}
+            color={colours.accent}
             onPress={onDelete}
             position="absolute"
             top="$2"
             right="$2"
           >
-            ✕       
+            <LucideTrash2 size={16} color={colours.accent} />
           </Button>
         )}
       </YStack>
