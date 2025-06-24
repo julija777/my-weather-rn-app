@@ -1,53 +1,71 @@
 import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 
-export const useLocation = () => {
-  const [location, setLocation] = useState<{
-    latitude: number;
-    longitude: number;
-  } | null>(null);
+interface LocationData {
+  city: string | null;
+  error: string | null;
+  latitude: number | null;
+  longitude: number | null;
+}
+
+const DEFAULT_COORDINATES = { latitude: 51.5072, longitude: -0.1276 }; // London coordinates
+
+export function useLocation(): LocationData {
   const [city, setCity] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [latitude, setLatitude] = useState<number | null>(
+    DEFAULT_COORDINATES.latitude,
+  );
+  const [longitude, setLongitude] = useState<number | null>(
+    DEFAULT_COORDINATES.longitude,
+  );
 
   useEffect(() => {
-    const getLocationAsync = async () => {
+    async function getCurrentLocation() {
       try {
-        console.log("[useLocation] Requesting permissions...");
-        const { status } = await Location.requestForegroundPermissionsAsync();
+        // Request permission to access location
+        let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== "granted") {
-          const msg = "Location permission denied";
-          console.error("[useLocation] ❌", msg);
-          setError(msg);
+          setError(
+            "Location permission denied. Using default location (London).",
+          );
+          setCity("London");
           return;
         }
 
-        console.log("[useLocation] Getting current position...");
-        const { coords } = await Location.getCurrentPositionAsync({});
-        console.log("[useLocation] ✅ Location:", coords);
-        setLocation({ latitude: coords.latitude, longitude: coords.longitude });
+        // Get current position
+        let location = await Location.getCurrentPositionAsync({});
+        const { latitude: lat, longitude: lng } = location.coords;
 
-        console.log("[useLocation] Reverse geocoding...");
-        const [place] = await Location.reverseGeocodeAsync({
-          latitude: coords.latitude,
-          longitude: coords.longitude,
+        setLatitude(lat);
+        setLongitude(lng);
+
+        // Reverse geocode to get city name
+        let [address] = await Location.reverseGeocodeAsync({
+          latitude: lat,
+          longitude: lng,
         });
 
-        if (place) {
-          const fullCity = `${place.city || ""}, ${place.region || ""}, ${place.country || ""}`;
-          console.log("[useLocation] 🏙️ City:", fullCity);
-          setCity(fullCity);
+        if (address) {
+          const cityName =
+            address.city ||
+            address.subregion ||
+            address.region ||
+            "Unknown Location";
+          setCity(cityName);
         } else {
-          setCity("Unknown location");
+          setCity("Unknown Location");
         }
       } catch (err) {
-        const msg = `Unexpected error: ${(err as Error).message}`;
-        console.error("[useLocation] ❌", msg);
-        setError(msg);
+        console.error("Error getting location:", err);
+        setError("Failed to get location. Using default location (London).");
+        setCity("London");
+        // Keep default coordinates
       }
-    };
+    }
 
-    getLocationAsync();
+    getCurrentLocation();
   }, []);
 
-  return { location, city, error };
-};
+  return { city, error, latitude, longitude };
+}

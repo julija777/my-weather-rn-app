@@ -1,5 +1,6 @@
 import React from "react";
 import { YStack, Text, View, Spinner } from "tamagui";
+import { Pressable } from "react-native";
 import { WEATHER_DESCRIPTIONS } from "@/constants/constants";
 import { THEME_COLORS } from "@/types/colourTypes";
 import { WeatherIcon } from "../WeatherIcon";
@@ -13,6 +14,7 @@ interface WeatherCardProps {
   city?: string;
   country?: string;
   unit?: "metric" | "imperial";
+  onPress?: () => void;
 }
 
 const getWeatherDescription = (code: number): string =>
@@ -24,6 +26,7 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({
   variant,
   unitSymbol = "°C",
   city,
+  onPress,
 }) => {
   if (loading) {
     return (
@@ -41,7 +44,6 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({
     );
   }
 
-  // Prepare data based on variant
   let temperature = 0;
   let minTemp = 0;
   let maxTemp = 0;
@@ -239,7 +241,8 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({
 
   const weatherDescription = getWeatherDescription(weatherCode);
 
-  return (
+  // Wrap the card content in Pressable to make it clickable
+  const CardContent = (
     <YStack
       style={glassCardStyle}
       borderRadius="$4"
@@ -286,5 +289,14 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({
         {dayLabel}
       </Text>
     </YStack>
+  );
+
+  // Return clickable card if onPress is provided, otherwise return regular card
+  return onPress ? (
+    <Pressable onPress={onPress} style={{ opacity: 1 }}>
+      {CardContent}
+    </Pressable>
+  ) : (
+    CardContent
   );
 };

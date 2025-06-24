@@ -1,13 +1,13 @@
-import Header from "@/components/Header";
+import FlyAwayCard from "@/components/Cards/FlyAwayCard";
+import FlyAwayButton from "@/components/FlyAwayButton";
+import FlyAwayInput from "@/components/FlyAwayInput";
+import Header from "@/components/Headers/Header";
+import SavedCitiesList from "@/components/SavedCitiesList";
 import { cityState } from "@/store/cityStore";
 import React, { useState } from "react";
 import { ImageBackground } from "react-native";
 import { ScrollView, Separator, Text, YStack } from "tamagui";
 import FlyAwayGoodWeather from "../../assets/images/FlyAwayGoodWeather.png";
-import FlyAwayInput from "@/components/FlyAwayInput";
-import FlyAwayButton from "@/components/FlyAwayButton";
-import FlyAwayCard from "@/components/Cards/FlyAwayCard";
-import SavedCitiesList from "@/components/SavedCitiesList";
 
 export default function FlyAway() {
   const [city, setCity] = useState("");

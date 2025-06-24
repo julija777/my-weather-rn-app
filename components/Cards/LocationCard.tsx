@@ -1,13 +1,14 @@
 import React from "react";
 import { YStack, Text, Spinner } from "tamagui";
 import { useLocation } from "@/hooks/useLocation";
+import { colours } from "@/themes/colours";
 
 export const LocationCard: React.FC = () => {
   const { city, error } = useLocation();
 
   return (
     <YStack
-      backgroundColor="rgba(73, 201, 227, 0.7)"
+      backgroundColor={colours.glassBackgroundColor}
       borderRadius="$4"
       padding="$3"
       minWidth={140}

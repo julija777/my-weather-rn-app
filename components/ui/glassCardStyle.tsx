@@ -2,8 +2,6 @@ import { colours } from "@/themes/colours";
 
 export const glassCardStyle = {
   backgroundColor: colours.glassBackgroundColor,
-  borderWidth: 1,
-  borderColor: colours.glassBorderColor,
   backdropFilter: "blur(20px)",
   shadowColor: colours.glassShadowColor,
   shadowOffset: { width: 0, height: 8 },

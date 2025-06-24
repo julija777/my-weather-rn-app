@@ -10,7 +10,8 @@ export const colours = {
   accent: "#f39c12",
   deleteButton: "#e74c3c",
   glassTextPrimary: "#0C104EED",
-  glassBackgroundColor: "#60a7e19c",  
-glassBorderColor:    "#151ce084",  
-glassShadowColor:    "#0000001a",  
+  glassBackgroundColor: "#60a7e19c",
+  tealGlassBackgroundColor: "rgba(73, 201, 227, 0.7)",
+  glassBorderColor: "#151ce084",
+  glassShadowColor: "#0000001a",
 };
