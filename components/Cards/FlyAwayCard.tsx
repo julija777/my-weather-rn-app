@@ -30,7 +30,7 @@ const FlyAwayCard: React.FC<FlyAwayCardProps> = ({
       style={glassCardStyle}
       role="region"
       aria-label="Fly Away Card"
-      marginTop={"$4"}
+      marginTop="$4"
     >
       <YStack gap="$2">
         <XStack justifyContent="space-between" alignItems="center">

@@ -1,3 +1,5 @@
+import { colours } from "@/themes/colours";
+import { LucideTrash2 } from "lucide-react-native";
 import { Card, Stack, Text, XStack, Button } from "tamagui";
 
 type NotificationCardProps = {
@@ -42,14 +44,8 @@ const NotificationCard = ({
           circular
           backgroundColor="transparent"
           onPress={onClose}
-          position="absolute"
-          top="$2"
-          right="$2"
-          padding="$1"
         >
-          <Text fontSize="$3" color="$gray500" fontWeight="bold">
-            ✕
-          </Text>
+         <LucideTrash2 size={16} color={colours.accent} />
         </Button>
       )}
     </XStack>

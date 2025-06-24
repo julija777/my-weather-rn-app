@@ -1,5 +1,5 @@
 import React from "react";
-import { YStack, Text, View, Spinner } from "tamagui";
+import { YStack, Text, Spinner } from "tamagui";
 import { Pressable } from "react-native";
 import { WEATHER_DESCRIPTIONS } from "@/constants/constants";
 import { THEME_COLORS } from "@/types/colourTypes";
