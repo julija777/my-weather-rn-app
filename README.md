@@ -1,70 +1,133 @@
-### Welcome to my Weather App!
+# Weather Forecast App 🌤️
 
-The MVP for the app:
+A React Native weather application built with Expo, providing current weather conditions, forecasts, and city search functionality with a beautiful glass-morphism UI design.
 
-**Weather Forecast App**
 
-You have been tasked with creating a weather forecast app using React Native.
 
-Your app should fetch weather data from an open API and display it to the user.
+## Demo
+<video src="https://github.com/user-attachments/assets/7be24f90-2898-48c3-aa92-e7305d8ee8f8"> </video>
 
-**Requirements:**
+- Real-time weather data display
+- 5-day forecast visualization  
+- Location-based weather detection
+- City search and save functionality
+- Interactive hourly weather details
+- Smart weather notifications
+- Glass-morphism design with dynamic themes
 
-The app should have two screens:
+<details>
+<summary><b>📱 Features Overview</b></summary>
 
-👉 a. Home screen:
+### Core Features
+- **Current Weather Display**: Real-time temperature, weather conditions, and location-based data
+- **5-Day Forecast**: Extended weather predictions with detailed daily information
+- **Hourly Weather Details**: Tap weather cards to view hourly breakdowns
+- **City Search & Save**: Search for any city and save favorites for quick access
+- **Smart Notifications**: UV index alerts and umbrella reminders based on weather conditions
+- **Location Services**: Automatic location detection with fallback to London
+- **Responsive Design**: Optimized for various screen sizes with glass-morphism effects
 
-Display the current weather conditions:
+### Technical Features
+- **Tab Navigation**: Three main sections (Home, FlyAway, More)
+- **Dynamic Theming**: Color-coded weather categories (Now/Tomorrow/5-Day)
+- **Error Handling**: Graceful error states with user-friendly messages
+- **Loading States**: Smooth loading indicators throughout the app
+- **API Integration**: Open-Meteo API for reliable weather data
 
-temperature,
+</details>
 
-weather description,
+<details>
+<summary><b>🏗️ Architecture & Tech Stack</b></summary>
 
-and any other relevant information for the user's current location.
+### Tech Stack
+- **Framework**: React Native with Expo
+- **Navigation**: Expo Router (file-based routing)
+- **UI Library**: Tamagui for consistent design system
+- **State Management**: Legend State for observable state
+- **Icons**: Lucide React Native & Expo Vector Icons
+- **Location Services**: Expo Location
+- **API**: Open-Meteo Weather API (free, no API key required)
 
-👉 b. Forecast screen:
+### Project Structure
+```
+app/
+├── (tabs)/                 # Tab-based navigation
+│   ├── index.tsx          # Home screen
+│   ├── flyaway.tsx        # City search screen
+│   └── more.tsx           # Information screen
+├── screens/               # Modal screens
+│   └── hourly-weather-screen.tsx
+└── _layout.tsx           # Root layout
 
-Display a 5-day weather forecast for the user's current location.
+components/
+├── Cards/                # Reusable card components
+├── Headers/              # Header components
+├── common/               # Shared UI components
+└── ui/                   # Base UI components
 
-The app should make use of an open API to fetch weather data.
+hooks/                    # Custom React hooks
+├── useLocation.ts        # Location services
+├── useWeatherData.ts     # Weather API integration
+└── useWeatherNotification.tsx
 
-👉 You can choose any open weather API of your choice (e.g., OpenWeatherMap, WeatherAPI, etc.).
+services/                 # Business logic
+├── weatherService.ts     # API service layer
+└── handleWeatherCardPress.ts
 
-👉 The app should handle errors gracefully. If there is an error fetching weather data or the API returns an error response, display an appropriate error message to the user.
+store/                    # State management
+└── cityStore.ts          # Saved cities state
 
-👉 Use React Navigation or any other navigation library of your choice to implement navigation between the home and forecast screens.
+types/                    # TypeScript definitions
+├── types.ts             # Weather data types
+└── colourTypes.ts       # Theme types
+```
 
-👉 Implement the ability for the user to search for weather conditions in different locations, and save a City once you’ve searched for it.
+### Design Patterns
+- **Custom Hooks**: Separation of concerns for data fetching and state management
+- **Component Composition**: Reusable UI components with props-based customization
+- **Service Layer**: Abstracted API calls with error handling
+- **Type Safety**: Comprehensive TypeScript definitions
+- **Responsive Design**: Adaptive layouts for different screen sizes
 
-👉 Please provide a GitHub repository link containing your React Native code along with a 👉README file explaining how to run the app and any additional information you think is necessary.
+</details>
 
-👉 Note: You are free to use any additional libraries or tools you deem necessary to complete the task.
+<details>
+<summary><b>⚙️ Installation & Setup</b></summary>
 
-👉 Focus on writing clean, maintainable code, and demonstrate your proficiency in working with
+### Prerequisites
+- Node.js (v16 or higher)
+- npm 
+- Expo CLI
+- iOS Simulator or Android Emulator (for testing)
 
-👉 React Native components,
+### Installation Steps
 
-👉 state management,
-
-👉 API integration,
-
-👉 and navigation.
-
-## Run the App
-
-1. Install dependencies
-
+1. **Clone the repository**
    ```bash
-   npm install
+   git clone <my-weather-rn-app>
+   cd weather-forecast-app
    ```
 
-2. Start the app
+2. **Install dependencies**
+   ```bash
+   npm install
+   
+   ```
 
+3. **Start the development server**
    ```bash
    npx expo start
    ```
 
-## Override the expo default simulator geolocation:
+4. **Run on device/simulator**
+   - Press `i` for iOS simulator
+   - Press `a` for Android emulator
+   - Scan QR code with Expo Go app on physical device
+
+### Environment Setup
+No additional environment variables required. The app uses the free Open-Meteo API which doesn't require an API key.
+
+### Override the expo default simulator geolocation:
 
 🛠 For iOS Simulator:
 Open Simulator
@@ -88,3 +151,335 @@ If you deny location permission once, Expo will fall back to the default.
 Delete the Expo Go app and reinstall it to reset permissions
 
 Or go to your device’s Settings > App > Expo Go > Location > Allow
+
+</details>
+
+<details>
+<summary><b>📖 Usage Guide</b></summary>
+
+### Home Screen
+- **Weather Tabs**: Switch between "Now", "Tomorrow", and "Next 5 Days"
+- **Location Display**: Shows current location
+- **Weather Cards**: Tap cards to view hourly details (Now/Tomorrow only)
+- **Smart Notifications**: Receive UV alerts and rain reminders
+
+### FlyAway Screen
+- **City Search**: Enter any city name to get weather information
+- **Save Cities**: Searched cities are automatically saved
+- **Saved Cities List**: Quick access to previously searched locations
+- **Delete Cities**: Remove saved cities with trash icon
+
+### More Screen
+- **API Information**: Learn about the Open-Meteo API
+- **Sample Data**: View example API requests
+
+### Navigation
+- **Tab Navigation**: Bottom tabs for main screens
+- **Modal Navigation**: Hourly weather opens as modal
+- **Back Navigation**: Hardware back button and header back buttons
+
+</details>
+
+<details>
+<summary><b>🔧 API Integration</b></summary>
+
+### Open-Meteo API
+The app uses the free Open-Meteo Weather API for all weather data:
+
+**Base URL**: `https://api.open-meteo.com/v1/forecast`
+
+### API Endpoints Used
+
+1. **Current Weather**
+   ```
+   ?latitude={lat}&longitude={lng}&current_weather=true&hourly=temperature_2m,weathercode&timezone=auto
+   ```
+
+2. **Daily Forecast**
+   ```
+   ?latitude={lat}&longitude={lng}&daily=temperature_2m_max,temperature_2m_min,weathercode&start_date={date}&end_date={date}&timezone=auto
+   ```
+
+3. **Hourly Forecast**
+   ```
+   ?latitude={lat}&longitude={lng}&hourly=temperature_2m,weathercode,relative_humidity_2m,wind_speed_10m,precipitation&start_date={date}&end_date={date}&timezone=auto
+   ```
+
+4. **UV Index**
+   ```
+   ?latitude={lat}&longitude={lng}&current=uv_index&timezone=auto
+   ```
+
+### Error Handling
+- Network errors are caught and display user-friendly messages
+- API errors show appropriate fallback content
+- Location permission denials use default London coordinates
+
+</details>
+
+<details>
+<summary><b>📱 Screen Details</b></summary>
+
+### Home Screen (`app/(tabs)/index.tsx`)
+- Dynamic icons based on weather
+- Three-tab system (Now/Tomorrow/5-Day)
+- Interactive weather cards with tap navigation
+- Location-based weather display
+- Smart notification system
+
+### FlyAway Screen (`app/(tabs)/flyaway.tsx`)
+- City search functionality with geocoding
+- Automatic city saving to local state
+- Saved cities list with delete functionality
+- Weather display for searched cities
+- Glass-card design for weather information
+
+### More Screen (`app/(tabs)/more.tsx`)
+- Information about the Open-Meteo API
+- Sample API request links
+- Clean, minimal design with external links
+
+### Hourly Weather Screen (`app/screens/hourly-weather-screen.tsx`)
+- Modal presentation style
+- 24-hour forecast display
+- Detailed weather metrics (humidity, wind, precipitation)
+- Scrollable list of hourly cards
+- Back navigation with header
+
+</details>
+
+<details>
+<summary><b>🔄 State Management</b></summary>
+
+### Legend State Implementation
+```typescript
+// cityStore.ts
+export const cityState = observable({
+  savedCities: [] as { name: string; weather: CurrentWeatherData }[],
+});
+```
+
+### Custom Hooks
+- **useLocation**: Manages location services and city detection
+- **useWeatherData**: Fetches weather data based on active tab
+- **useHourlyWeatherData**: Handles hourly forecast API calls
+- **useWeatherNotification**: Generates smart weather alerts
+
+### Data Flow
+1. Location detected or city searched
+2. Weather data fetched from API
+3. Data processed and formatted
+4. UI components render with loading/error states
+5. User interactions trigger navigation or data updates
+
+</details>
+
+<details>
+<summary><b>🔧 Configuration</b></summary>
+
+### Tamagui Config
+The app uses Tamagui for consistent design system with custom configurations:
+
+```typescript
+// tamagui.config.ts
+export default createTamagui({
+  // Custom theme configuration
+  // Color schemes and design tokens
+  // Animation configurations
+});
+```
+
+### Constants
+```typescript
+// constants/constants.ts
+export const TABS = [
+  { key: "teal", label: "Now" },
+  { key: "blue", label: "Tomorrow" },
+  { key: "purple", label: "Next 5 Days" },
+] as const;
+
+export const WEATHER_DESCRIPTIONS = {
+  0: "Clear sky",
+  1: "Mainly clear",
+  2: "Partly cloudy",
+  // ... weather code mappings
+};
+```
+
+</details>
+
+<details>
+<summary><b>🧪 Error Handling & Edge Cases</b></summary>
+
+### Error Scenarios Handled
+1. **Location Permission Denied**: Falls back to London coordinates
+2. **Network Errors**: Shows error state with retry options
+3. **API Failures**: Displays user-friendly error messages
+4. **Invalid City Search**: Alert notification for city not found
+5. **Missing Weather Data**: Fallback values and empty states
+
+### Loading States
+- Spinner indicators during API calls
+- Skeleton loading for weather cards
+- Progressive loading for different data types
+
+</details>
+
+<details>
+<summary><b>📈 Performance Optimizations</b></summary>
+
+### Optimization Strategies
+- **Memoized Components**: Prevent unnecessary re-renders
+- **Efficient API Calls**: Debounced search and cached responses
+- **Image Optimization**: Compressed background images
+- **Lazy Loading**: Components loaded on demand
+- **State Management**: Observable patterns for efficient updates
+
+### Bundle Optimization
+- Tree-shaking unused code
+- Optimized imports from component libraries
+- Compressed assets and images
+- Efficient navigation structure
+
+</details>
+
+<details>
+<summary><b>📝 Development Guidelines</b></summary>
+
+### Code Standards
+- **TypeScript**: Strict type checking enabled
+- **ESLint**: Code quality and consistency
+- **Prettier**: Code formatting
+- **Component Naming**: PascalCase for components, camelCase for functions
+- **File Organization**: Feature-based folder structure
+
+### Testing Approach
+- Unit tests for utility functions
+- Integration tests for API services
+- Component testing with React Native Testing Library
+
+
+</details>
+
+<details>
+<summary><b>🚀 Deployment</b></summary>
+
+### Build for Production
+
+1. **Create production build**
+   ```bash
+   npx expo build:android
+   npx expo build:ios
+   ```
+
+2. **Generate app bundles**
+   ```bash
+   npx expo export
+   ```
+
+3. **Submit to app stores**
+   ```bash
+   npx expo submit:android
+   npx expo submit:ios
+   ```
+
+### Environment Configuration
+- Production API endpoints
+- Analytics configuration
+- Crash reporting setup
+- Performance monitoring
+
+</details>
+
+<details>
+<summary><b>📋 Plan for Improvements</b></summary>
+
+### Code Quality Improvements
+
+1. **TypeScript Enhancements**
+   - Add stricter type definitions for API responses
+   - Implement discriminated unions for weather states
+   - Add generic types for reusable components
+
+2. **Error Boundary Implementation**
+   ```typescript
+   // Add React Error Boundary for graceful error handling
+   class WeatherErrorBoundary extends React.Component {
+     // Catch and handle component errors
+   }
+   ```
+
+3. **Performance Optimizations**
+   - Implement React.memo for expensive components
+   - Add useMemo for computed values
+   - Optimize re-renders with useCallback
+
+
+### Feature Enhancements
+
+1. **Offline Support**
+   - Cache weather data locally
+   - Implement offline-first architecture
+   - Add sync capabilities when online
+
+2. **Advanced Notifications**
+   - Push notifications for weather alerts
+   - Customizable notification preferences
+   - Location-based weather warnings
+
+3. **Data Visualization**
+   - Charts for temperature trends
+   - Precipitation probability graphs
+   - Wind direction indicators
+
+4. **User Preferences**
+   - Temperature unit selection (°C/°F)
+   - Theme customization options
+   - Language localization support
+
+5. **Advanced Features**
+   - Weather radar integration
+   - Air quality index display
+   - Sunrise/sunset times
+   - Moon phase information
+
+### Technical Debt
+
+1. **API Layer Improvements**
+   - Implement request/response interceptors
+   - Add retry logic with exponential backoff
+   - Implement proper caching strategy
+
+2. **Accessibility**
+   - Add comprehensive screen reader support
+   - Implement keyboard navigation
+   - Add high contrast mode
+   - High contrast text and backgrounds
+   - Proper ARIA labels for screen readers
+   - Keyboard navigation support
+
+
+3. **Testing Infrastructure**
+   - Unit tests for hooks and utilities
+   - Integration tests for API services
+   - Component snapshot testing
+   - E2E testing with Detox
+
+4. **Git Workflow
+   - Feature branches for new development
+   - Pull requests with code review
+   - Semantic commit messages
+   - Automated testing on CI/CD pipeline
+     
+</details>
+
+## Acknowledgments
+
+- [Open-Meteo API](https://open-meteo.com/) for free weather data
+- [Expo](https://expo.dev/) for the development platform
+- [Tamagui](https://tamagui.dev/) for the UI component library
+- [Lucide](https://lucide.dev/) for beautiful icons
+
+---
+
+*Built by Julija Stepanova with ❤️ using React Native and Expo*
