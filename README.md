@@ -8,7 +8,7 @@ A React Native weather application built with Expo, providing current weather co
 <video src="https://github.com/user-attachments/assets/7be24f90-2898-48c3-aa92-e7305d8ee8f8"> </video>
 
 - Real-time weather data display
-- 5-day forecast visualization  
+- 5-day forecast visualisation  
 - Location-based weather detection
 - City search and save functionality
 - Interactive hourly weather details
@@ -25,7 +25,7 @@ A React Native weather application built with Expo, providing current weather co
 - **City Search & Save**: Search for any city and save favorites for quick access
 - **Smart Notifications**: UV index alerts and umbrella reminders based on weather conditions
 - **Location Services**: Automatic location detection with fallback to London
-- **Responsive Design**: Optimized for various screen sizes with glass-morphism effects
+- **Responsive Design**: Optimised for various screen sizes with glass-morphism effects
 
 ### Technical Features
 - **Tab Navigation**: Three main sections (Home, FlyAway, More)
@@ -84,7 +84,7 @@ types/                    # TypeScript definitions
 
 ### Design Patterns
 - **Custom Hooks**: Separation of concerns for data fetching and state management
-- **Component Composition**: Reusable UI components with props-based customization
+- **Component Composition**: Reusable UI components with props-based customisation
 - **Service Layer**: Abstracted API calls with error handling
 - **Type Safety**: Comprehensive TypeScript definitions
 - **Responsive Design**: Adaptive layouts for different screen sizes
@@ -326,18 +326,18 @@ export const WEATHER_DESCRIPTIONS = {
 </details>
 
 <details>
-<summary><b>📈 Performance Optimizations</b></summary>
+<summary><b>📈 Performance Optimisations</b></summary>
 
-### Optimization Strategies
-- **Memoized Components**: Prevent unnecessary re-renders
+### Optimisation Strategies
+- **Memoised Components**: Prevent unnecessary re-renders
 - **Efficient API Calls**: Debounced search and cached responses
-- **Image Optimization**: Compressed background images
+- **Image Optimisation**: Compressed background images
 - **Lazy Loading**: Components loaded on demand
 - **State Management**: Observable patterns for efficient updates
 
-### Bundle Optimization
+### Bundle Optimisation
 - Tree-shaking unused code
-- Optimized imports from component libraries
+- Optimised imports from component libraries
 - Compressed assets and images
 - Efficient navigation structure
 
@@ -351,7 +351,7 @@ export const WEATHER_DESCRIPTIONS = {
 - **ESLint**: Code quality and consistency
 - **Prettier**: Code formatting
 - **Component Naming**: PascalCase for components, camelCase for functions
-- **File Organization**: Feature-based folder structure
+- **File Organisation**: Feature-based folder structure
 
 ### Testing Approach
 - Unit tests for utility functions
@@ -409,10 +409,10 @@ export const WEATHER_DESCRIPTIONS = {
    }
    ```
 
-3. **Performance Optimizations**
+3. **Performance Optimisations**
    - Implement React.memo for expensive components
    - Add useMemo for computed values
-   - Optimize re-renders with useCallback
+   - Optimise re-renders with useCallback
 
 
 ### Feature Enhancements
@@ -424,18 +424,18 @@ export const WEATHER_DESCRIPTIONS = {
 
 2. **Advanced Notifications**
    - Push notifications for weather alerts
-   - Customizable notification preferences
+   - Customisable notification preferences
    - Location-based weather warnings
 
-3. **Data Visualization**
+3. **Data Visualisation**
    - Charts for temperature trends
    - Precipitation probability graphs
    - Wind direction indicators
 
 4. **User Preferences**
    - Temperature unit selection (°C/°F)
-   - Theme customization options
-   - Language localization support
+   - Theme customisation options
+   - Language localisation support
 
 5. **Advanced Features**
    - Weather radar integration
