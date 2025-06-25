@@ -2,9 +2,11 @@
 
 A React Native weather application built with Expo, providing current weather conditions, forecasts, and city search functionality with a beautiful glass-morphism UI design.
 
-## Demo
 
-*Made demo - A comprehensive weather app featuring:*
+
+## Demo
+<video src="https://github.com/user-attachments/assets/7be24f90-2898-48c3-aa92-e7305d8ee8f8"> </video>
+
 - Real-time weather data display
 - 5-day forecast visualization  
 - Location-based weather detection
