@@ -9,7 +9,7 @@ export default function TabLayout() {
         headerShown: false,
         tabBarShowLabel: true,
         tabBarStyle: {
-          height: 80, 
+          height: 80,
         },
         tabBarLabelStyle: {
           fontSize: 12,
@@ -21,7 +21,15 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color, size }) => (
-            <View style={{ alignItems: "center", justifyContent: "center", height: 30, marginTop: 8, marginBottom: 4 }}>
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                height: 30,
+                marginTop: 8,
+                marginBottom: 4,
+              }}
+            >
               <Ionicons name="home" size={size} color={color} />
             </View>
           ),
@@ -32,7 +40,15 @@ export default function TabLayout() {
         options={{
           title: "FlyAway",
           tabBarIcon: ({ color, size }) => (
-            <View style={{ alignItems: "center", justifyContent: "center", height: 30, marginTop: 8, marginBottom: 4  }}>
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                height: 30,
+                marginTop: 8,
+                marginBottom: 4,
+              }}
+            >
               <Ionicons name="airplane" size={size} color={color} />
             </View>
           ),
@@ -43,7 +59,15 @@ export default function TabLayout() {
         options={{
           title: "More",
           tabBarIcon: ({ color, size }) => (
-            <View style={{ alignItems: "center", justifyContent: "center", height: 30, marginTop: 8, marginBottom: 4 }}>
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                height: 30,
+                marginTop: 8,
+                marginBottom: 4,
+              }}
+            >
               <Ionicons name="ellipsis-horizontal" size={size} color={color} />
             </View>
           ),

@@ -41,7 +41,7 @@ export const HourlyWeatherCard = ({
       marginTop="$2"
       backdropFilter="blur(10px)"
       borderWidth={1}
-      borderColor="rgba(255, 255, 255, 0.2)"
+      borderColor={colours.greyPrimary}
     >
       {/* Time and Temperature */}
       <XStack

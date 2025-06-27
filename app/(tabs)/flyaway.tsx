@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { ImageBackground } from "react-native";
 import { ScrollView, Separator, Text, YStack } from "tamagui";
 import FlyAwayGoodWeather from "../../assets/images/FlyAwayGoodWeather.png";
+import { colours } from "@/themes/colours";
 
 export default function FlyAway() {
   const [city, setCity] = useState("");
@@ -63,7 +64,7 @@ export default function FlyAway() {
       resizeMode="cover"
       style={{ flex: 1 }}
     >
-      <Header title="🌤 Where to Fly Away?" color={"#00596B"} />
+      <Header title="🌤 Where to Fly Away?" color={colours.tealSecondary} />
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
@@ -88,16 +89,16 @@ export default function FlyAway() {
           <Separator
             marginTop="$4"
             marginBottom="$4"
-            backgroundColor="rgba(255, 255, 255, 0.3)"
+            backgroundColor={colours.greyPrimary}
           />
           <Text
             fontSize="$8"
             fontWeight="800"
             fontStyle="italic"
-            color={"#fff"}
+            color={colours.textWhite}
             alignSelf="center"
             style={{
-              textShadowColor: "rgba(0, 0, 0, 0.6)",
+              textShadowColor: colours.textShadow,
               textShadowOffset: { width: 0, height: 2 },
               textShadowRadius: 4,
             }}

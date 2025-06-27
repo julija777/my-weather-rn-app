@@ -1,3 +1,4 @@
+import { colours } from "@/themes/colours";
 import React from "react";
 import { Input } from "tamagui";
 
@@ -18,10 +19,10 @@ const FlyAwayInput: React.FC<FlyAwayInputProps> = ({
       value={value}
       onChangeText={onChangeText}
       marginBottom="$2"
-      backgroundColor="rgba(255, 255, 255, 0.2)"
-      borderColor="rgba(255, 255, 255, 0.4)"
-      color="white"
-      placeholderTextColor="rgba(255, 255, 255, 0.7)"
+      backgroundColor={colours.greyPrimary}
+      borderColor={colours.borderColorPrimary}
+      color={colours.textWhite}
+      placeholderTextColor={colours.textPlaceholder}
     />
   );
 };

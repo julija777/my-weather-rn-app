@@ -1,3 +1,4 @@
+import { colours } from "@/themes/colours";
 import { TAB_CONTAINER_COLORS, THEME_COLORS } from "@/types/colourTypes";
 import React from "react";
 import { Button, XStack, YStack } from "tamagui";
@@ -46,10 +47,10 @@ export const SlidingTabs: React.FC<SlidingTabsProps> = ({
               fontWeight="bold"
               flex={1}
               onPress={() => onChange(tab.key)}
-              backgroundColor={isActive ? "yellow" : "transparent"}
-              color={isActive ? "$color" : "#fff"}
+              backgroundColor={isActive ? colours.yellowPrimary : "transparent"}
+              color={isActive ? "$color" : "white"}
               pressStyle={{
-                backgroundColor: isActive ? "yellow" : "rgba(255,255,255,0.1)",
+                backgroundColor: isActive ? colours.yellowPrimary : colours.greyPrimary,
               }}
             >
               {tab.label}

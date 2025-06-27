@@ -1,3 +1,4 @@
+import { colours } from "@/themes/colours";
 import React from "react";
 import { Button } from "tamagui";
 
@@ -10,12 +11,12 @@ const FlyAwayButton: React.FC<FlyAwayButtonProps> = ({ onPress, children }) => {
   return (
     <Button
       onPress={onPress}
-      backgroundColor="rgba(255, 255, 255, 0.2)"
-      borderColor="rgba(255, 255, 255, 0.4)"
+      backgroundColor={colours.greyPrimary}
+      borderColor={colours.borderColorPrimary}
       borderWidth={1}
-      color="white"
+      color={colours.textWhite}
       pressStyle={{
-        backgroundColor: "rgba(255, 255, 255, 0.3)",
+        backgroundColor: colours.glassBackgroundColor ,
       }}
     >
       {children}

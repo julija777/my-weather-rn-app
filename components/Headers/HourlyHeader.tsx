@@ -1,3 +1,4 @@
+import { colours } from "@/themes/colours";
 import { THEME_COLORS } from "@/types/colourTypes";
 import { ArrowLeft } from "lucide-react-native";
 import { Pressable } from "react-native";
@@ -14,13 +15,13 @@ export const HourlyHeader = ({
     paddingTop="$8"
     paddingHorizontal="$4"
     paddingBottom="$4"
-    backgroundColor={THEME_COLORS.teal}
+    backgroundColor={colours.tealPrimary}
   >
     <XStack alignItems="center" gap="$3">
       <Pressable
         onPress={onBack}
         style={{
-          backgroundColor: "rgba(255, 255, 255, 0.2)",
+          backgroundColor: colours.greyPrimary,
           padding: 8,
           borderRadius: 8,
         }}

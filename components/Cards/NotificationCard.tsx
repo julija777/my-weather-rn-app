@@ -45,7 +45,7 @@ const NotificationCard = ({
           backgroundColor="transparent"
           onPress={onClose}
         >
-         <LucideTrash2 size={16} color={colours.accent} />
+          <LucideTrash2 size={16} color={colours.accent} />
         </Button>
       )}
     </XStack>
